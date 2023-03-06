@@ -1,0 +1,29 @@
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db11h11m.cwsrqmkqrglk.ap-northeast-2.rds.amazonaws.com:3306/week8
+    username: sulbin
+    password: 12341234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+
+
+
+#  batch:
+#    job:
+#      names: ${job.name:NONE}
+#      enabled: false
+#      jdbc:
+#          initialize-schema: embedded

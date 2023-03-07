@@ -17,7 +17,7 @@ public class Item {
 
     private String itemName;//상품 명
 
-    private Integer adultYn;//성인 여부
+    private Integer adultYn;//성인 여부 default:true(1)
 
     private Long itemOrgCost;//상품 원본 금액
 

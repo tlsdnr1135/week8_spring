@@ -13,14 +13,14 @@ public class TestApiController {
     private final DaddetRepository daddetRepository;
 
 
-    @GetMapping("/api/test")
-    public String saveDaddet(){
-        System.out.println("test");
-        DadDet daddet = DadDet.builder()
-                .adId(1L)
-                .build();
-        daddetRepository.save(daddet);
-        return "good";
-    }
+//    @GetMapping("/api/test")
+//    public String saveDaddet(){
+//        System.out.println("test");
+//        DadDet daddet = DadDet.builder()
+//                .adId(1L)
+//                .build();
+//        daddetRepository.save(daddet);
+//        return "good";
+//    }
 
 }

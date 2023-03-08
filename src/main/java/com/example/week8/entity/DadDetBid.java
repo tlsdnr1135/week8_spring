@@ -9,9 +9,13 @@ import javax.persistence.*;
 public class DadDetBid {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "DAD_DET_ID")
+//    @Column(name = "sdssd")
     private Long id; //직접광고 상세 ID(FK)
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "DAD_DET_BID_ID", referencedColumnName = "DAD_DET_ID")
+    private DadDet dadDet;
 
     private Long bidCost; //입찰 금액
 

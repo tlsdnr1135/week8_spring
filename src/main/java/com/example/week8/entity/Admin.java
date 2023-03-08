@@ -8,10 +8,12 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity(name = "ADMIN")
 @Getter
 @NoArgsConstructor
+@PrimaryKeyJoinColumn(name = "ADMIN_ID")
 public class Admin extends Account{
 
     @CreatedDate

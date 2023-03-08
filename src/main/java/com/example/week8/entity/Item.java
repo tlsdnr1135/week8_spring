@@ -13,7 +13,7 @@ public class Item {
     @Column(name = "ITEM_ID")
     private Long id; //상품 아이디
 
-    private Long itemNo;//상품 번호
+    private String itemNo;//상품 번호
 
     private String itemName;//상품 명
 

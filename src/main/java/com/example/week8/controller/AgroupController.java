@@ -16,6 +16,13 @@ public class AgroupController {
 
     private final AgroupService agroupService;
 
+    //광고 그룹 가져오기
+    @GetMapping("/api/agroup/find")
+    public ResponseEntity<?> findAgroup(){
+        return ResponseEntity.ok().body(agroupService.findAgroup());
+    }
+
+    //광고 그룹 등록
     @PostMapping("/api/agroup/save")
     public ResponseEntity<?> saveAgroup(@RequestBody Agroup agroup){
         return ResponseEntity.ok().body(agroupService.saveAgroup(agroup));

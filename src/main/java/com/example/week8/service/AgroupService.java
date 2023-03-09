@@ -1,5 +1,6 @@
 package com.example.week8.service;
 
+import com.example.week8.dto.ItemObject;
 import com.example.week8.entity.Agroup;
 import com.example.week8.repository.AgroupRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,4 +18,9 @@ public class AgroupService {
         return agroup;
     }
 
+    public ItemObject findAgroup() {
+        ItemObject itemObject = new ItemObject();
+        itemObject.setAgroups(agroupRepository.findAll());
+        return itemObject;
+    }
 }

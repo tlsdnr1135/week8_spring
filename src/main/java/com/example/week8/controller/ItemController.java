@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequiredArgsConstructor
 public class ItemController {
@@ -14,11 +16,13 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping("/api/item/find")
-    public ResponseEntity<ItemObject> findItems(@RequestParam(required = false) String itmename, String itmenumber){
-        System.out.println(itmename);
-        System.out.println(itmenumber);
+    public ResponseEntity<ItemObject> findItems(@RequestParam(required = false) String itemname, String itemnumber, HttpServletRequest request){
+        System.out.println(request.getRequestURL());
+        System.out.println(request.getRequestURI());
+        System.out.println(itemname);
+        System.out.println(itemnumber);
 
-        return ResponseEntity.ok().body(itemService.itemFind(itmename,itmenumber));
+        return ResponseEntity.ok().body(itemService.itemFind(itemname,itemnumber));
     }
     @PostMapping("/api/item/save")
     public ResponseEntity<?> saveItems(@RequestBody Item item){

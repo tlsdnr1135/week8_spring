@@ -30,11 +30,14 @@ public class Agroup extends Timestamped{
     @Column(nullable = false)
     private Integer agroupActYn; //광고그룹 활성 여부
 
+    private Integer agroupUseActYn;//광고그룹 사용 설정 여부
+
     @Builder
-    public Agroup(Long id, String agroupName, LocalDateTime regTime, Integer agroupActYn) {
+    public Agroup(Long id, String agroupName, LocalDateTime regTime, Integer agroupActYn, Integer agroupUseActYn) {
         this.id = id;
         this.agroupName = agroupName;
         this.regTime = regTime;
         this.agroupActYn = agroupActYn;
+        this.agroupUseActYn = agroupUseActYn;
     }
 }

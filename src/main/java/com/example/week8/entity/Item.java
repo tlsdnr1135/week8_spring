@@ -21,6 +21,7 @@ public class Item {
 
     private Long itemOrgCost;//상품 원본 금액
 
+    @Column(nullable = false)
     private Integer itemActYn;//상품 활성 여부
 
 }

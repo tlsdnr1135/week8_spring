@@ -17,18 +17,21 @@ public class ItemService {
     //조회
     //TODO 쿼리 DSL로 바꾸기
     public ItemObject itemFind(String itmename, String itmenumber){
-        if(itmename==null && itmenumber==null){ //둘다 널 -> 전체 조회
-            ItemObject itemObject = new ItemObject();
-            itemObject.setItems(itemRepository.findAll());
-            return itemObject;
-        }else if(itmename.equals(null)){ //이름 없음 -> 넘버만 조건
-            return null;
-        }else if(itmenumber.equals(null)){ //넘버 없음 -> 이름만 조건
-            return null;
-        }else { //둘 다 조건
-            return null;
-        }
-
+        ItemObject itemObject = new ItemObject();
+//        if(itmename==null && itmenumber==null){ //둘다 널 -> 전체 조회
+//
+//            itemObject.setItems(itemRepository.findAll());
+//            return itemObject;
+//        }else if(itmename == (null)){ //이름 없음 -> 넘버만 조건
+//            return null;
+//        }else if(itmenumber == (null)){ //넘버 없음 -> 이름만 조건
+//            return null;
+//        }else { //둘 다 조건
+//            itemObject.setItems(itemRepository.findByItemNoContainingAndItemNameContaining(itmenumber,itmename));
+//            return itemObject;
+//        }
+        itemObject.setItems(itemRepository.findByItemNoContainingAndItemNameContaining(itmenumber,itmename));
+        return itemObject;
     }
     
     //저장

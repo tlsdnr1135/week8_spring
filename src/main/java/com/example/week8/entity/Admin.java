@@ -5,13 +5,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity(name = "ADMIN")
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @PrimaryKeyJoinColumn(name = "ADMIN_ID")
 public class Admin extends Account{

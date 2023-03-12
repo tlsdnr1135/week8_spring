@@ -1,7 +1,9 @@
 package com.example.week8.entity;
 
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity(name = "KWD")
 public class Kwd { //키워드
 
@@ -21,11 +24,31 @@ public class Kwd { //키워드
     private String kwdName; //키워드 명
 
     @Column(nullable = false)
-    private Integer sellPossKwdYn; //판매 가능 키워드 여부 (1)
+    private Integer sellPossKwdYn = 1; //판매 가능 키워드 여부 (1)
 
     @Column(nullable = false)
-    private Integer manualCnrKwd; //수동 검수 키워드 여부 (0)
-
+    private Integer manualCnrKwdYn = 0; //수동 검수 키워드 여부 (0)
+    @Builder
+    public Kwd(Long id, String kwdName, Integer sellPossKwdYn, Integer manualCnrKwdYn) {
+        this.id = id;
+        this.kwdName = kwdName;
+        this.sellPossKwdYn = 1;
+        this.manualCnrKwdYn = 0;
+    }
+    //    @Override
+//    public boolean equals(Object obj) {
+//        if(obj instanceof Kwd) {
+//            Kwd kwd = (Kwd) obj;
+//            return kwd.getKwdName().equals(kwdName);
+//        }else {
+//            return false;
+//        }
+//    } // equals 동등성비교
+//
+//    @Override
+//    public int hashCode() {
+//        return kwdName.hashCode();
+//    } // hashCode 재정의
 
 
 }

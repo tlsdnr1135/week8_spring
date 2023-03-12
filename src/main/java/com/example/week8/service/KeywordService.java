@@ -22,7 +22,7 @@ public class KeywordService {
     //키워드 저장
     public Kwd keywordSave(Kwd kwd) {
         kwd.setSellPossKwdYn(1); //true
-        kwd.setManualCnrKwd(0); //false
+        kwd.setManualCnrKwdYn(0); //false
         return keywordRepository.save(kwd);
     }
 }

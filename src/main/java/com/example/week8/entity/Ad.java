@@ -1,24 +1,28 @@
 package com.example.week8.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 @Entity(name = "AD")
-public class Ad {
+public class Ad extends Timestamped{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "AD_ID")
     private Long id; //광고 ID
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ADV_ID",nullable = false)
     private Adv adv; //광고주 ID (FK)
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne
     @JoinColumn(name = "AGROUP_ID",nullable = false)
     private Agroup agroup;//광고 그룹 ID (FK)
 
@@ -36,6 +40,15 @@ public class Ad {
     @Column(nullable = false)
     private Integer adActYn; //광고 활성 여부
 
+    @Builder
 
-
+    public Ad(Long id, Adv adv, Agroup agroup, Item item, Integer adUseConfigYn, LocalDateTime regTime, Integer adActYn) {
+        this.id = id;
+        this.adv = adv;
+        this.agroup = agroup;
+        this.item = item;
+        this.adUseConfigYn = adUseConfigYn;
+        this.regTime = regTime;
+        this.adActYn = adActYn;
+    }
 }

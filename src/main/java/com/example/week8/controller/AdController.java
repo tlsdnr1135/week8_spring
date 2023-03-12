@@ -5,6 +5,8 @@ import com.example.week8.service.AdService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -14,10 +16,17 @@ public class AdController {
     private final AdService adService;
 
 
-    @GetMapping("/api/ad/save")
-    public ResponseEntity<?> saveAd(AdDto adDto){
-        adService.saveAd(adDto);
-        return null;
+    @GetMapping("/api/ad/find")
+    public ResponseEntity<Object> findAll(){
+        return ResponseEntity.ok().body(adService.findAll());
+    }
+
+    @PostMapping("/api/ad/save")
+    public ResponseEntity<Object> saveAd(@RequestBody AdDto adDto){
+        System.out.println("adController agroup.getAgroupName()= " +  adDto.getAgroup().getAgroupName());
+        System.out.println("adController agroup.getName() = " +  adDto.getAdv().getName());
+        System.out.println("adController kwd. = " +  adDto.getKwd().get(0).getSellPossKwdYn());
+        return ResponseEntity.ok().body(adService.saveAd(adDto));
     }
 
 

@@ -14,6 +14,7 @@ public class AgroupService {
     private final AgroupRepository agroupRepository;
     public Agroup saveAgroup(Agroup agroup) {
         agroup.setAgroupActYn(1); //기본 값.
+        agroup.setAgroupUseActYn(1); //기본 값.
         agroupRepository.save(agroup);
         return agroup;
     }

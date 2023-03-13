@@ -13,7 +13,9 @@ public class AdDto {
     private Adv adv;
     private Agroup agroup;
     private Item item;
-    private List<Kwd> kwd;
+    private List<KwdDto> kwd;
+
+//    private CnrReq cnrReq;
 
 
 

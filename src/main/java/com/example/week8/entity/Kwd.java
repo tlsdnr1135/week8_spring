@@ -1,6 +1,7 @@
 package com.example.week8.entity;
 
 
+import com.example.week8.dto.KwdDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,20 +37,32 @@ public class Kwd { //키워드
         this.sellPossKwdYn = 1;
         this.manualCnrKwdYn = 0;
     }
-    //    @Override
-//    public boolean equals(Object obj) {
-//        if(obj instanceof Kwd) {
-//            Kwd kwd = (Kwd) obj;
-//            return kwd.getKwdName().equals(kwdName);
-//        }else {
+
+    public boolean containsCheck(List<Kwd> kwds){
+        return kwds.stream().filter(kwd -> kwd.getKwdName().equals(kwdName)).count() != 0;
+
+
+//        if(kwds.contains(kwdName)){
+//            return true;
+//        }else{
 //            return false;
 //        }
-//    } // equals 동등성비교
-//
-//    @Override
-//    public int hashCode() {
-//        return kwdName.hashCode();
-//    } // hashCode 재정의
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof KwdDto) {
+            KwdDto kwd = (KwdDto) obj;
+            return kwd.getKwdName().equals(kwdName);
+        }else {
+            return false;
+        }
+    } // equals 동등성비교
+
+    @Override
+    public int hashCode() {
+        return kwdName.hashCode();
+    } // hashCode 재정의
 
 
 }

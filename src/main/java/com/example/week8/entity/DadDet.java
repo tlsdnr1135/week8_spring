@@ -22,14 +22,15 @@ public class DadDet extends Timestamped{
     @JoinColumn(name = "AD_ID",nullable = false)
     private Ad ad;//광고 ID(FK)
     @ManyToOne
-    @JoinColumn(name = "KWD",nullable = false)
-    private Kwd kwdId;//키워드 ID(FK)
+    @JoinColumn(name = "KWD_ID")
+    private Kwd kwd;//키워드 ID(FK)
 
     @Column(nullable = false)
     private String dadCnr;//직접광고 검수 상태, 직접광고 검수 상태: APPROVAL(추후에 REJECT도 사용)
 
     @OneToOne
-    @JoinColumn(name = "CnrReq",nullable = false)
+//    @JoinColumn(name = "CnrReq",nullable = false)
+    @JoinColumn(name = "CNR_REQ_ID")
     private CnrReq cnrReqId;//검수 요청 ID(FK), 신규로 적재될 검수 요청ID 기재
 
     @Column(nullable = false)
@@ -42,16 +43,16 @@ public class DadDet extends Timestamped{
     private LocalDateTime regTime;//등록 시간
 
 
-//    @Builder
-//    public DadDet(Long id, Long adId, Long kwdId, String dadCnr, Long cnrReqId, Integer dadUseConfig, Integer dadActYn, LocalDateTime regTime) {
-//        this.id = id;
-//        this.adId = adId;
-//        this.kwdId = kwdId;
-//        this.dadCnr = dadCnr;
-//        this.cnrReqId = cnrReqId;
-//        this.dadUseConfig = dadUseConfig;
-//        this.dadActYn = dadActYn;
-//        this.regTime = regTime;
-//    }
+    @Builder
 
+    public DadDet(Long id, Ad ad, Kwd kwd, String dadCnr, CnrReq cnrReqId, Integer dadUseConfig, Integer dadActYn, LocalDateTime regTime) {
+        this.id = id;
+        this.ad = ad;
+        this.kwd = kwd;
+        this.dadCnr = dadCnr;
+        this.cnrReqId = cnrReqId;
+        this.dadUseConfig = dadUseConfig;
+        this.dadActYn = dadActYn;
+        this.regTime = regTime;
+    }
 }

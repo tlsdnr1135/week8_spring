@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity(name = "CNR_REQ")
-public class CnrReq { //검수 요청
+public class CnrReq extends Timestamped{ //검수 요청
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

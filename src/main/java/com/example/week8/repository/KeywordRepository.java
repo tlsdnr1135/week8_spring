@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface KeywordRepository extends JpaRepository<Kwd,Long> {
+
+    Kwd findByKwdName(String kwdName);
+
 }

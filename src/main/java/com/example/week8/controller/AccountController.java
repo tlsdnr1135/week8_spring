@@ -1,13 +1,10 @@
 package com.example.week8.controller;
 
 
-import com.example.week8.dto.AccountReqDto;
-import com.example.week8.security.UserDetailsImpl;
+import com.example.week8.dto.account.join.AccountReqDto;
 import com.example.week8.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

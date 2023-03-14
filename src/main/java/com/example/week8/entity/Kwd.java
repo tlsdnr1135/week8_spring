@@ -2,6 +2,8 @@ package com.example.week8.entity;
 
 
 import com.example.week8.dto.KwdDto;
+import com.example.week8.dto.kwd.find.KwdFindResDto;
+import com.example.week8.dto.kwd.save.KwdSaveResDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,23 +36,33 @@ public class Kwd { //키워드
     public Kwd(Long id, String kwdName, Integer sellPossKwdYn, Integer manualCnrKwdYn) {
         this.id = id;
         this.kwdName = kwdName;
-        this.sellPossKwdYn = 1;
-        this.manualCnrKwdYn = 0;
+        this.sellPossKwdYn = sellPossKwdYn;
+        this.manualCnrKwdYn = manualCnrKwdYn;
     }
 
-    public boolean containsCheck(List<Kwd> kwds){
-        return kwds.stream().filter(kwd -> kwd.getKwdName().equals(kwdName)).count() != 0;
-
-
-//        if(kwds.contains(kwdName)){
-//            return true;
-//        }else{
-//            return false;
-//        }
+    public KwdFindResDto toKwdFindResDto(){
+        return KwdFindResDto.builder()
+                .kwdName(kwdName)
+                .sellPossKwdYn(sellPossKwdYn)
+                .manualCnrKwdYn(manualCnrKwdYn)
+                .build();
     }
+    public KwdSaveResDto toKwdSaveResDto(){
+        return KwdSaveResDto.builder()
+                .id(id)
+                .kwdName(kwdName)
+                .build();
+    }
+
+
+
+
+
 
     @Override
     public boolean equals(Object obj) {
+        System.out.println("일루일루일루일루일루일루일루일루일루일루");
+        System.out.println(obj);
         if(obj instanceof KwdDto) {
             KwdDto kwd = (KwdDto) obj;
             return kwd.getKwdName().equals(kwdName);

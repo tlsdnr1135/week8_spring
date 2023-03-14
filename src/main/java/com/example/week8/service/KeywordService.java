@@ -1,10 +1,16 @@
 package com.example.week8.service;
 
 import com.example.week8.dto.ItemObject;
+import com.example.week8.dto.kwd.find.KwdFindResDto;
+import com.example.week8.dto.kwd.save.KwdSaveReqDto;
+import com.example.week8.dto.kwd.save.KwdSaveResDto;
 import com.example.week8.entity.Kwd;
 import com.example.week8.repository.KeywordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -13,16 +19,13 @@ public class KeywordService {
     private final KeywordRepository keywordRepository;
 
     //키워드 조회
-    public ItemObject keywordFind() {
-        ItemObject itemObject = new ItemObject();
-        itemObject.setKwds(keywordRepository.findAll());
-        return itemObject;
+    public List<KwdFindResDto> keywordFind() {
+        return keywordRepository.findAll().stream().map(s -> s.toKwdFindResDto()).collect(Collectors.toList());
     }
     
     //키워드 저장
-    public Kwd keywordSave(Kwd kwd) {
-        kwd.setSellPossKwdYn(1); //true
-        kwd.setManualCnrKwdYn(0); //false
-        return keywordRepository.save(kwd);
+    public KwdSaveResDto keywordSave(KwdSaveReqDto kwdSaveReqDto) {
+        Kwd kwd = keywordRepository.save(kwdSaveReqDto.toFindKwd());
+        return kwd.toKwdSaveResDto();
     }
 }

@@ -1,10 +1,14 @@
 package com.example.week8.entity;
 
+import com.example.week8.dto.item.save.ItemSaveResDto;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
+@NoArgsConstructor
 @Entity(name = "ITEM")
 public class Item {
 
@@ -24,4 +28,23 @@ public class Item {
     @Column(nullable = false)
     private Integer itemActYn;//상품 활성 여부
 
+    @Builder
+    public Item(Long id, String itemNo, String itemName, Integer adultYn, Long itemOrgCost, Integer itemActYn) {
+        this.id = id;
+        this.itemNo = itemNo;
+        this.itemName = itemName;
+        this.adultYn = adultYn;
+        this.itemOrgCost = itemOrgCost;
+        this.itemActYn = itemActYn;
+    }
+
+    public ItemSaveResDto toItemSaveResDto(){
+        return ItemSaveResDto.builder()
+                .itemNo(itemNo)
+                .itemName(itemName)
+                .adultYn(adultYn)
+                .itemOrgCost(itemOrgCost)
+                .itemActYn(itemActYn)
+                .build();
+    }
 }

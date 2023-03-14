@@ -1,5 +1,7 @@
 package com.example.week8.dto;
 
+import com.example.week8.dto.agroup.find.AgroupFindResDto;
+import com.example.week8.dto.item.find.ItemFindResDto;
 import com.example.week8.entity.Agroup;
 import com.example.week8.entity.Item;
 import com.example.week8.entity.Kwd;
@@ -16,6 +18,8 @@ public class ItemObject {
 
     private List<Agroup> agroups;
 
-    private List<Kwd> kwds;
+    private List<AgroupFindResDto> agroupFindResDtos;
+
+    private ItemFindResDto itemFindResDto;
 
 }

@@ -10,10 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static java.util.function.Predicate.not;
 
 @Service
 @RequiredArgsConstructor
@@ -36,10 +33,14 @@ public class AdService {
 
         //광고그룹 아이디 저장. -> 아이디 리턴 받기
         //TODO 중복 거르기
-        adDto.getAgroup().setAgroupActYn(1); //기본 값.
-        adDto.getAgroup().setAgroupUseActYn(1); //기본 값.
-        Agroup agroup = agroupRepository.save(adDto.getAgroup());
-        System.out.println("Agroup 아이디 : "+ agroup.getId());
+        Agroup findAgroup = agroupRepository.findByAgroupName(adDto.getAgroup().getAgroupName());
+        if(findAgroup == null){
+            adDto.getAgroup().setAgroupActYn(1); //기본 값.
+            adDto.getAgroup().setAgroupUseActYn(1); //기본 값.
+            findAgroup = agroupRepository.save(adDto.getAgroup());
+            System.out.println("Agroup 아이디 : "+ findAgroup.getId());
+        }
+
 
         //아이템 아이디 가져오기.
         Item item = itemRepository.findById(adDto.getItem().getId()).get();
@@ -49,7 +50,7 @@ public class AdService {
         //TODO 객체에 id값만 넣어주기!
         Ad ad = Ad.builder()
                 .adv(adv)
-                .agroup(agroup)
+                .agroup(findAgroup)
                 .item(item)
                 .adUseConfigYn(1)
                 .adActYn(1)
@@ -59,40 +60,31 @@ public class AdService {
         System.out.println("광고 아이디 불러오기 :" + ad.getId());
 
         //키워드 저장(ID)
-        //TODO 해쉬코드 재정의 하지 말고 해보기
-        List<Kwd> kwds = keywordRepository.findAll(); //5, 6
+        List<Kwd> dbKwds = keywordRepository.findAll(); //5, 6 키워드 저장
         List<KwdDto> collects = adDto.getKwd(); //1 2 3 4 5
+        List<Kwd> kwds = new ArrayList<>();;
 
-        List<KwdDto> collect;
-        List<Kwd> collect2;
-        if(collects != null){
-            collect = collects.stream().filter((s -> !kwds.contains(s))).collect(Collectors.toList());
-            collect2 = collect.stream().map(s -> s.toKwd()).collect(Collectors.toList());
-        }else{
-            collect = new ArrayList<>();
-            collect2 = new ArrayList<>();
+        //키워드 저장하기
+        if (collects != null){ //키워드 값이 null이 아니면
+            for(int i=0; i<collects.size(); i++){
+                if(!dbKwds.contains(collects.get(i))){ //중복이 안된다면
+                    //데이터 인서트
+                    Kwd entity = keywordRepository.save(collects.get(i).toKwd());
+                    kwds.add(entity);
+                }else { //중복이면
+                    Kwd kwd =keywordRepository.findByKwdName(collects.get(i).getKwdName());
+                    kwds.add(kwd);
+                }
+            }
         }
-
-
-
-        System.out.println("------------size --------"+collect.size());
-//        System.out.println(collect2.get(0).getKwdName());
-
-
-        //키워드 저장
-        if(collect.size() == 0){ //키워드가 없으면 -> 0
-            //패스
-        }else{
-            //키워드 저장(ID)
-            keywordRepository.saveAll(collect2);
-
+        for(int i=0; i<kwds.size(); i++){
+            System.out.println(kwds.get(i).getId());
         }
-
 
         //검수 요청(나증에)
 
         //직접광고 상세 입찰
-        if(collect.size() == 0) {
+        if(collects == null) {
             //키워드 없으면 광고만 등록
             //직접광고 상세
             DadDet dadDet = DadDet.builder()
@@ -115,10 +107,10 @@ public class AdService {
         }else{
             //키워드 있으면 광고와 키워드 등록
             //스트림으로 해도 될듯?
-            for(int i=0; i<collect.size(); i++){
+            for(int i=0; i<kwds.size(); i++){
                 DadDet dadDet = DadDet.builder()
                         .ad(ad)
-                        .kwd(collect2.get(i))
+                        .kwd(kwds.get(i))
                         .dadCnr("APPROVAL")
                         .cnrReqId(null) //검수 요청
                         .dadUseConfig(1)
@@ -129,18 +121,11 @@ public class AdService {
                 //직접광고 상세 저장
                 DadDetBid dadDetBid = DadDetBid.builder()
                         .dadDet(dadDet)
-                        .bidCost(collect.get(i).getBidCost())
+                        .bidCost(collects.get(i).getBidCost()) //dto
                         .build();
                 daddetbidRepository.save(dadDetBid);
             }
         }
-
-
-
-
-
-        
-
 
         return null;
     }

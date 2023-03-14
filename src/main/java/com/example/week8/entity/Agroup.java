@@ -1,5 +1,6 @@
 package com.example.week8.entity;
 
+import com.example.week8.dto.agroup.find.AgroupFindResDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class Agroup extends Timestamped{
     @Column(name = "AGROUP_ID")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String agroupName; //광고그룹명
 
     @CreatedDate
@@ -39,5 +40,14 @@ public class Agroup extends Timestamped{
         this.regTime = regTime;
         this.agroupActYn = agroupActYn;
         this.agroupUseActYn = agroupUseActYn;
+    }
+
+    public AgroupFindResDto toAgroup(){
+        return AgroupFindResDto.builder()
+                .agroupName(agroupName)
+                .regTime(regTime)
+                .agroupActYn(agroupActYn)
+                .agroupUseActYn(agroupUseActYn)
+                .build();
     }
 }

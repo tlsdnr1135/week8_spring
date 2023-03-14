@@ -1,4 +1,4 @@
-package com.example.week8.dto;
+package com.example.week8.dto.account.join;
 
 import com.example.week8.entity.Account;
 import com.example.week8.entity.Admin;

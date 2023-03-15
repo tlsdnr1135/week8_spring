@@ -27,6 +27,7 @@ public class ItemService {
     
     //저장
     public ItemSaveResDto itemSave(ItemSaveReqDto itemSaveReqDto){
+        System.out.println("나는 아이템 저장");
         Item item = itemRepository.save(itemSaveReqDto.toItem());
         return item.toItemSaveResDto();
     }

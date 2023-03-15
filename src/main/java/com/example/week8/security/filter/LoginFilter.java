@@ -27,6 +27,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         JsonNode requestBody;
 
+
         try {
             requestBody = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).readTree(request.getInputStream());
         }catch (Exception e){

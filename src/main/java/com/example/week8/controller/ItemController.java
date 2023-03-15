@@ -24,7 +24,6 @@ public class ItemController {
     }
     @PostMapping("/api/item/save")
     public ResponseEntity<ItemSaveResDto> saveItems(@RequestBody ItemSaveReqDto itemSaveReqDto){
-        itemService.itemSave(itemSaveReqDto);
         return ResponseEntity.ok().body(itemService.itemSave(itemSaveReqDto));
     }
 

@@ -28,6 +28,11 @@ public class AccountReqDto {
         this.role = role;
     }
 
+    //String -> Enum
+    public AccountRoleEnum toEnum(){
+        return AccountRoleEnum.valueOf(role);
+    }
+
     //dto->entity
     public Adv toAdv(){
         return Adv.builder()

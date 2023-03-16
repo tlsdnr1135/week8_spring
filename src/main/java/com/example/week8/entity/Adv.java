@@ -14,7 +14,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name = "ADV_ID")
 public class Adv extends Account{
 
-    private Integer adIngActYn; //광고 진행 활성 여부
+    private Integer adIngActYn=1; //광고 진행 활성 여부
 
     private Long balance; //잔액, (더미데이터 100만원)
 
@@ -29,5 +29,10 @@ public class Adv extends Account{
         this.balance = balance;
         this.eventMoneyBalance = eventMoneyBalance;
         this.dayLimitBudget = dayLimitBudget;
+    }
+
+    //adIngActYn 변경
+    public void updateAdIngActYn(Integer adIngActYn){
+        this.adIngActYn = adIngActYn;
     }
 }

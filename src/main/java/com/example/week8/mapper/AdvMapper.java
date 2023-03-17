@@ -2,9 +2,9 @@ package com.example.week8.mapper;
 
 import com.example.week8.dto.adv.find.AdvFindResDto;
 import com.example.week8.dto.adv.update.AdvAdIngActYnResDto;
+import com.example.week8.dto.adv.update.AdvDayLimitBudgetResDto;
 import com.example.week8.entity.Adv;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
@@ -18,6 +18,9 @@ public interface AdvMapper {
 
     //Adv ->AdvAdIngActYnResDto
     AdvAdIngActYnResDto toAdvAdIngActYnResDto(Adv adv);
+
+    //Adv ->AdvDayLimitBudgetResDto
+    AdvDayLimitBudgetResDto toAdvDayLimitBudgetResDto(Adv adv);
 
 
 }

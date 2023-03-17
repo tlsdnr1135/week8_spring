@@ -1,6 +1,8 @@
 package com.example.week8.entity;
 
 import com.example.week8.dto.agroup.find.AgroupFindResDto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +11,8 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,6 +37,11 @@ public class Agroup extends Timestamped{
 
     private Integer agroupUseActYn;//광고그룹 사용 설정 여부
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "agroup",fetch = FetchType.LAZY)
+    private List<Ad> ad = new ArrayList<>();
+
+
     @Builder
     public Agroup(Long id, String agroupName, LocalDateTime regTime, Integer agroupActYn, Integer agroupUseActYn) {
         this.id = id;
@@ -48,6 +57,7 @@ public class Agroup extends Timestamped{
                 .regTime(regTime)
                 .agroupActYn(agroupActYn)
                 .agroupUseActYn(agroupUseActYn)
+//                .adList(ad)
                 .build();
     }
 }

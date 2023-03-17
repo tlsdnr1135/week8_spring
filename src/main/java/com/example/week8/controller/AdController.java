@@ -23,10 +23,6 @@ public class AdController {
 
     @PostMapping("/api/ad/save")
     public ResponseEntity<Object> saveAd(@RequestBody AdDto adDto){
-//        System.out.println("adController agroup.getAgroupName()= " +  adDto.getAgroup().getAgroupName());
-//        System.out.println("adController agroup.getName() = " +  adDto.getAdv().getName());
-//        System.out.println("adController kwd. = " +  adDto.getKwd().get(0).getKwdName());
-//        System.out.println("adController kwd. = " +  adDto.getKwd().get(1).getKwdName());
         return ResponseEntity.ok().body(adService.saveAd(adDto));
     }
 

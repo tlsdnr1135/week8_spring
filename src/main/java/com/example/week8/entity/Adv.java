@@ -22,6 +22,7 @@ public class Adv extends Account{
 
     private Long dayLimitBudget; //일 제한 예산 (더미데티어 0만원)
 
+
     @Builder
     public Adv(String name, String password, AccountRoleEnum role, Integer adIngActYn, Long balance, Long eventMoneyBalance, Long dayLimitBudget) {
         super(name, password, role);
@@ -34,5 +35,9 @@ public class Adv extends Account{
     //adIngActYn 변경
     public void updateAdIngActYn(Integer adIngActYn){
         this.adIngActYn = adIngActYn;
+    }
+    //adIngActYn 변경
+    public void updateDayLimitBudget(Long dayLimitBudget){
+        this.dayLimitBudget = dayLimitBudget;
     }
 }

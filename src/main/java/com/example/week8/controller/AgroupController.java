@@ -9,10 +9,7 @@ import com.example.week8.repository.AgroupRepository;
 import com.example.week8.service.AgroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,13 +19,21 @@ public class AgroupController {
 
     private final AgroupService agroupService;
 
-    //광고 그룹 가져오기
+    //광고 그룹 가져오기(전체)
     @GetMapping("/api/agroup/find")
     public ResponseEntity<ItemObject> findAgroup(){
         ItemObject itemObject = new ItemObject();
         itemObject.setAgroupFindResDtos(agroupService.findAgroup());
         return ResponseEntity.ok().body(itemObject);
     }
+
+    //광고 그룹 가져오기(LIKE)(이름)
+    @GetMapping("/api/agroup/find/aggl")
+    public ResponseEntity<?> findAgroupAggl(@RequestParam(required = false) String agroupName){
+        agroupService.findAgroupAggl(agroupName);
+        return null;
+    }
+
 
     //광고 그룹 등록
     @PostMapping("/api/agroup/save")

@@ -1,5 +1,7 @@
 package com.example.week8.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +24,8 @@ public class Ad extends Timestamped{
     @JoinColumn(name = "ADV_ID",nullable = false)
     private Adv adv; //광고주 ID (FK)
 
-    @ManyToOne
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "AGROUP_ID",nullable = false)
     private Agroup agroup;//광고 그룹 ID (FK)
 

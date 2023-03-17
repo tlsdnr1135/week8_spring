@@ -55,6 +55,15 @@ public class AdService {
                 .adUseConfigYn(1)
                 .adActYn(1)
                 .build();
+        //연관관계저장 ad->agroup
+        //1. 전체 객체를 넣고 출력
+        findAgroup.getAd().add(ad);
+
+        //2. 가짜 객체를 넣고 출력
+//        Ad ad1 = Ad.builder()
+//                .id(99L)
+//                .build();
+//        findAgroup.getAd().add(ad1);
 
         adRepository.save(ad);
         System.out.println("광고 아이디 불러오기 :" + ad.getId());
@@ -126,7 +135,7 @@ public class AdService {
                 daddetbidRepository.save(dadDetBid);
             }
         }
-
+        System.out.println("ssssssssssssssssssssssssssssssssssssssss");
         return null;
     }
 

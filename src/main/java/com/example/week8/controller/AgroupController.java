@@ -1,6 +1,7 @@
 package com.example.week8.controller;
 
 import com.example.week8.dto.ItemObject;
+import com.example.week8.dto.agroup.find.AgroupFindOnOffReqDto;
 import com.example.week8.dto.agroup.find.AgroupFindResDto;
 import com.example.week8.dto.agroup.save.AgroupSaveReqDto;
 import com.example.week8.entity.Agroup;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,6 +20,7 @@ import java.util.List;
 public class AgroupController {
 
     private final AgroupService agroupService;
+
 
     //광고 그룹 가져오기(전체)
     @GetMapping("/api/agroup/find")
@@ -27,11 +30,11 @@ public class AgroupController {
         return ResponseEntity.ok().body(itemObject);
     }
 
-    //광고 그룹 가져오기(LIKE)(이름)
-    @GetMapping("/api/agroup/find/aggl")
-    public ResponseEntity<?> findAgroupAggl(@RequestParam(required = false) String agroupName){
-        agroupService.findAgroupAggl(agroupName);
-        return null;
+    //On/Off 일괄 변경
+    @PutMapping("/api/agroup/find/onoff")
+    public ResponseEntity<?> findAgroupOnOff(@RequestBody AgroupFindOnOffReqDto agroupFindOnOffReqDto){
+        agroupService.updateOnOff(agroupFindOnOffReqDto);
+        return  ResponseEntity.ok().body("업데이트 성공");
     }
 
 

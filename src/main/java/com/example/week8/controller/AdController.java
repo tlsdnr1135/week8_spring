@@ -20,10 +20,7 @@ public class AdController {
         return ResponseEntity.ok().body(adService.findAll());
     }
 
-    @GetMapping("/api/ad/find/manage")
-    public ResponseEntity<?> findAdManage(@RequestParam("name") String name,@RequestParam("agroupName") String agroupName){
-        return ResponseEntity.ok().body(adRepository.findBySulbin(name,agroupName));
-    }
+
 
 
     @PostMapping("/api/ad/save")

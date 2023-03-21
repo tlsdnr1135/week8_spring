@@ -33,7 +33,9 @@ public class AdService {
 
         //광고그룹 아이디 저장. -> 아이디 리턴 받기
         //TODO 중복 거르기
-        Agroup findAgroup = agroupRepository.findByAgroupName(adDto.getAgroup().getAgroupName());
+        Agroup findAgroup = agroupRepository.findByAgroupName(adDto.getAgroup().getAgroupName()).orElseThrow(
+                () -> new IllegalArgumentException("이미 존재하는 광고그룹 아이디 입니다.")
+        );
         if(findAgroup == null){
             adDto.getAgroup().setAgroupActYn(1); //기본 값.
             adDto.getAgroup().setAgroupUseActYn(1); //기본 값.

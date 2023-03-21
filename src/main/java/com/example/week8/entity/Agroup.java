@@ -60,4 +60,18 @@ public class Agroup extends Timestamped{
 //                .adList(ad)
                 .build();
     }
+
+    //agroupActYn 0 -> 1
+    public void AgroupActYnStateOn(){
+        this.agroupActYn = 1;
+    }
+    //agroupUseActYn 변경
+    public void AgroupUseActYnStateChange(Integer agroupUseActYn){
+        this.agroupUseActYn = agroupUseActYn;
+    }
+
+    //agroupName 변경
+    public void AgroupNameChange(String str){
+        this.agroupName = str;
+    }
 }

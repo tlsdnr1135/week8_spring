@@ -1,4 +1,4 @@
-package com.example.week8.dto.agroup.find;
+package com.example.week8.dto.agroup.update;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -10,15 +10,12 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AgroupFindOnOffReqDto {
+public class AgroupUpdateAgroupActYnReqDto {
 
     private List<Long> longList;
 
-    private Integer yn;
-
     @Builder
-    public AgroupFindOnOffReqDto(List<Long> longList, Integer yn) {
+    public AgroupUpdateAgroupActYnReqDto(List<Long> longList) {
         this.longList = longList;
-        this.yn = yn;
     }
 }

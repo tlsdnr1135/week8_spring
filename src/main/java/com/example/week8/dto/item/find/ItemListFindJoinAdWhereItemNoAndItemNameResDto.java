@@ -2,7 +2,7 @@ package com.example.week8.dto.item.find;
 
 public interface ItemListFindJoinAdWhereItemNoAndItemNameResDto {
 
-//    Long getKey();
+    Long getKey();
     Object getAdultYn();
     Object getItemActYn();
     Object getItemName();

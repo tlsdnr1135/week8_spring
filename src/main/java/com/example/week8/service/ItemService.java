@@ -1,10 +1,11 @@
 package com.example.week8.service;
 
-import com.example.week8.dto.ItemObject;
-import com.example.week8.dto.item.find.ItemFindResDto;
+import com.example.week8.dto.item.find.ItemListFindJoinAdWhereItemNoAndItemNameResDto;
+import com.example.week8.dto.item.find.ItemListFindResDto;
 import com.example.week8.dto.item.save.ItemSaveReqDto;
 import com.example.week8.dto.item.save.ItemSaveResDto;
 import com.example.week8.entity.Item;
+import com.example.week8.mapper.ItemMapper;
 import com.example.week8.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,15 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     //조회
-    public ItemFindResDto itemFind(String itmename, String itmenumber){
-        ItemFindResDto itemFindResDto =  ItemFindResDto.builder()
-                .items(itemRepository.findByItemNoContainingAndItemNameContaining(itmenumber,itmename))
-                .build();
-        return itemFindResDto;
+    public List<ItemListFindResDto> itemFind(String itmename, String itmenumber){
+        List<Item> itemList = itemRepository.findByItemNoContainingAndItemNameContaining(itmenumber, itmename);
+        List<ItemListFindResDto> itemListFindResDtos = ItemMapper.INSTANCE.toItemFindResDto(itemList);
+        return itemListFindResDtos;
+    }
+    //조회
+    public List<ItemListFindJoinAdWhereItemNoAndItemNameResDto> findItemListJoinAdWhereItemNameAndItemNo(String advId, Long agroupId, String itemNo, String itemName  ){
+        List<ItemListFindJoinAdWhereItemNoAndItemNameResDto> itemListJoinAdWhereItemNameAndItemNo = itemRepository.findItemListJoinAdWhereItemNameAndItemNo(advId, agroupId, itemNo, itemName);
+        return itemListJoinAdWhereItemNameAndItemNo;
     }
     
     //저장

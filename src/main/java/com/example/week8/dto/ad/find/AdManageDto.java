@@ -6,4 +6,6 @@ public interface AdManageDto {
     Object getAdActYn();
     Object getAdUseConfigYn();
     Object getAgroupUseActYn();
+
+    Object getRegTime();
 }

@@ -52,8 +52,7 @@ public class AgroupController {
     //agroupUseActYn 변경
     @PutMapping("/api/agroup/update/agroupuseactyn")
     public ResponseEntity<?> updateAgroupAgroupUseActYn(@RequestBody AgroupUpdateAgroupUseActYnReqDto agroupUpdateAgroupUseActYnReqDto){
-        agroupService.updateAgroupAgroupUseActYn(agroupUpdateAgroupUseActYnReqDto);
-        return  ResponseEntity.ok().body("업데이트 성공");
+        return  ResponseEntity.ok().body(agroupService.updateAgroupAgroupUseActYn(agroupUpdateAgroupUseActYnReqDto));
     }
     //agroupName 변경
     @PutMapping("/api/agroup/update/agroupname")

@@ -27,7 +27,7 @@ public interface AgroupRepository extends JpaRepository<Agroup,Long> {
     void updateOnOff(@Param("list") List<Long> longList,@Param("yn") Integer num);
 
     //그룹명 조회(광고 관리)
-    @Query(value = "select g.agroup_id as 'key', g.agroup_name as agroupName,ifnull(sum(a.ad_act_yn),0) as adActYn ,ifnull(sum(a.ad_use_config_yn),0) as adUseConfigYn, g.agroup_use_act_yn as agroupUseActYn \n" +
+    @Query(value = "select g.reg_time as 'regTime',g.agroup_id as 'key', g.agroup_name as agroupName,ifnull(sum(a.ad_act_yn),0) as adActYn ,ifnull(sum(a.ad_use_config_yn),0) as adUseConfigYn, g.agroup_use_act_yn as agroupUseActYn \n" +
             "    from agroup g\n" +
             "    left join ad a on a.agroup_id = g.agroup_id and a.adv_id= :names \n" +
             "    where g.agroup_act_yn= 1\n"+

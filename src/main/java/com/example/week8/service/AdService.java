@@ -27,6 +27,7 @@ public class AdService {
 
     @Transactional
     public Object saveAd(AdDto adDto){
+        System.out.println(adDto.getItem().getId());
         //광고주 아이디 가져오기.
         Adv adv = advRepository.findById(adDto.getAdv().getName()).get();
         System.out.println("Adv 아이디 : "+ adv.getName());

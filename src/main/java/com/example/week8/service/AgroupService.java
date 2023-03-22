@@ -58,7 +58,7 @@ public class AgroupService {
 
     //agroupUseActYn 변경
     @Transactional
-    public void updateAgroupAgroupUseActYn(AgroupUpdateAgroupUseActYnReqDto agroupUpdateAgroupUseActYnReqDto){
+    public Integer updateAgroupAgroupUseActYn(AgroupUpdateAgroupUseActYnReqDto agroupUpdateAgroupUseActYnReqDto){
         Agroup agroup = agroupRepository.findByAgroupName(agroupUpdateAgroupUseActYnReqDto.getAgroupName()).orElseThrow(
                 ()->new IllegalArgumentException("없는 아이디")
         );
@@ -67,6 +67,7 @@ public class AgroupService {
         }else{
             agroup.AgroupUseActYnStateChange(1);
         }
+        return agroup.getAgroupUseActYn();
     }
 
 

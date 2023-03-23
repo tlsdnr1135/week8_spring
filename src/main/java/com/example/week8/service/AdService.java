@@ -2,6 +2,8 @@ package com.example.week8.service;
 
 import com.example.week8.dto.AdDto;
 import com.example.week8.dto.KwdDto;
+import com.example.week8.dto.ad.update.RequestAdActYnAllDto;
+import com.example.week8.dto.ad.update.RequestAdUseConfigYnAllDto;
 import com.example.week8.entity.*;
 import com.example.week8.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -104,7 +106,7 @@ public class AdService {
                     .kwd(null)
                     .dadCnr("APPROVAL")
                     .cnrReqId(null) //검수 요청
-                    .dadUseConfig(1)
+                    .dadUseConfigYn(1)
                     .dadActYn(1)
                     .build();
             daddetRepository.save(dadDet);
@@ -125,7 +127,7 @@ public class AdService {
                         .kwd(kwds.get(i))
                         .dadCnr("APPROVAL")
                         .cnrReqId(null) //검수 요청
-                        .dadUseConfig(1)
+                        .dadUseConfigYn(1)
                         .dadActYn(1)
                         .build();
                 daddetRepository.save(dadDet);
@@ -144,5 +146,21 @@ public class AdService {
 
     public Object findAll() {
         return adRepository.findAll();
+    }
+
+    //update
+    //OnOff버튼(AdUseConfigYn, DadUseConfigYn)
+    @Transactional
+    public void updateAdUseConfigYnALl(RequestAdUseConfigYnAllDto requestAdUseConfigYnAllDto){
+        adRepository.updateAdUseConfigYnAll(requestAdUseConfigYnAllDto.getLongList(),requestAdUseConfigYnAllDto.getYn());
+        daddetRepository.updateDadUseConfigYnAll(requestAdUseConfigYnAllDto.getLongList(),requestAdUseConfigYnAllDto.getYn());
+    }
+
+    //delete
+    //그룹 삭제 버튼(AdUseConfigYn, DadUseConfigYn)
+    @Transactional
+    public void updateAdActYnALl(RequestAdActYnAllDto requestAdActYnAllDto){
+        adRepository.updateAdActYnALl(requestAdActYnAllDto.getLongList(),requestAdActYnAllDto.getYn());
+        daddetRepository.updateDadActYnAll(requestAdActYnAllDto.getLongList(),requestAdActYnAllDto.getYn());
     }
 }

@@ -44,7 +44,6 @@ public class Ad extends Timestamped{
     private Integer adActYn; //광고 활성 여부
 
     @Builder
-
     public Ad(Long id, Adv adv, Agroup agroup, Item item, Integer adUseConfigYn, LocalDateTime regTime, Integer adActYn) {
         this.id = id;
         this.adv = adv;

@@ -9,6 +9,7 @@ public interface ItemListFindJoinAdWhereItemNoAndItemNameResDto {
     Object getItemNo();
     Object getItemOrgCost();
     Object getAdUseConfigYn();
+    Object getAdActYn();
     Object getAdId();
 
 }

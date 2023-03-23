@@ -34,7 +34,7 @@ public class DadDet extends Timestamped{
     private CnrReq cnrReqId;//검수 요청 ID(FK), 신규로 적재될 검수 요청ID 기재
 
     @Column(nullable = false)
-    private Integer dadUseConfig;//직접광고 사용 설정 여부
+    private Integer dadUseConfigYn;//직접광고 사용 설정 여부
 
     @Column(nullable = false)
     private Integer dadActYn;//직접광고 활성 여부
@@ -45,13 +45,13 @@ public class DadDet extends Timestamped{
 
     @Builder
 
-    public DadDet(Long id, Ad ad, Kwd kwd, String dadCnr, CnrReq cnrReqId, Integer dadUseConfig, Integer dadActYn, LocalDateTime regTime) {
+    public DadDet(Long id, Ad ad, Kwd kwd, String dadCnr, CnrReq cnrReqId, Integer dadUseConfigYn, Integer dadActYn, LocalDateTime regTime) {
         this.id = id;
         this.ad = ad;
         this.kwd = kwd;
         this.dadCnr = dadCnr;
         this.cnrReqId = cnrReqId;
-        this.dadUseConfig = dadUseConfig;
+        this.dadUseConfigYn = dadUseConfigYn;
         this.dadActYn = dadActYn;
         this.regTime = regTime;
     }

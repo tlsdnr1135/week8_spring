@@ -38,8 +38,4 @@ public class KeywordController {
     public ResponseEntity<KwdSaveResDto> keywordSave(@RequestBody KwdSaveReqDto kwdSaveReqDto){
         return ResponseEntity.ok().body(keywordService.keywordSave(kwdSaveReqDto));
     }
-
-    
-
-
 }

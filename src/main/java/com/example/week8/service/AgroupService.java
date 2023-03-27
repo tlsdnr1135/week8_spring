@@ -1,6 +1,7 @@
 package com.example.week8.service;
 
 import com.example.week8.dto.ad.find.AdManageDto;
+import com.example.week8.dto.agroup.find.ResponseAgroupDetailsDto;
 import com.example.week8.dto.agroup.update.AgroupUpdateAgroupActYnReqDto;
 import com.example.week8.dto.agroup.update.AgroupUpdateAgroupNameReqDto;
 import com.example.week8.dto.agroup.update.AgroupUpdateAgroupUseActYnReqDto;
@@ -8,6 +9,7 @@ import com.example.week8.dto.agroup.update.AgroupUpdateOnOffReqDto;
 import com.example.week8.dto.agroup.find.AgroupFindResDto;
 import com.example.week8.dto.agroup.save.AgroupSaveReqDto;
 import com.example.week8.entity.Agroup;
+import com.example.week8.mapper.AgroupMapper;
 import com.example.week8.repository.AgroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,16 @@ public class AgroupService {
     public List<AgroupFindResDto> findAgroup() {
         return agroupRepository.findAll().stream().map(s -> s.toAgroup()).collect(Collectors.toList());
     }
+
+    //상세조회
+    public ResponseAgroupDetailsDto findDetails(Long agroupId) {
+        Agroup agroup = agroupRepository.findById(agroupId).orElseThrow(
+                ()->new IllegalArgumentException("해당하는 아이디가 없습니다.")
+        );
+        ResponseAgroupDetailsDto responseAgroupDetailsDto = AgroupMapper.INSTANCE.responseAgroupDetailsDto(agroup);
+        return responseAgroupDetailsDto;
+    }
+
     //그룹 리스트 조회
     public List<AdManageDto> findBySulbin(String name, String agroupName) {
         return agroupRepository.findByAgroupListJoinAd(name,agroupName);
@@ -88,4 +100,6 @@ public class AgroupService {
         agroup.AgroupNameChange(updateAgroupNameReqDto.getAfterAgroupName());
         return agroup.getAgroupName();
     }
+
+
 }

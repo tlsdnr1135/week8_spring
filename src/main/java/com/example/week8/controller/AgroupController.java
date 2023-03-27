@@ -2,6 +2,7 @@ package com.example.week8.controller;
 
 import com.example.week8.dto.ItemObject;
 import com.example.week8.dto.ad.find.AdManageDto;
+import com.example.week8.dto.agroup.find.ResponseAgroupDetailsDto;
 import com.example.week8.dto.agroup.update.AgroupUpdateAgroupActYnReqDto;
 import com.example.week8.dto.agroup.update.AgroupUpdateAgroupNameReqDto;
 import com.example.week8.dto.agroup.update.AgroupUpdateAgroupUseActYnReqDto;
@@ -28,6 +29,12 @@ public class AgroupController {
         ItemObject itemObject = new ItemObject();
         itemObject.setAgroupFindResDtos(agroupService.findAgroup());
         return ResponseEntity.ok().body(itemObject);
+    }
+
+    //광고그룹 상세 조회
+    @GetMapping("/api/agroup/find/details")
+    public ResponseEntity<ResponseAgroupDetailsDto> findDetails(@RequestParam("agroupId") Long agroupId){
+        return ResponseEntity.ok().body(agroupService.findDetails(agroupId));
     }
 
     //그룹리스트

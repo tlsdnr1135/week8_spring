@@ -8,6 +8,7 @@ import com.example.week8.dto.agroup.update.AgroupUpdateAgroupUseActYnReqDto;
 import com.example.week8.dto.agroup.update.AgroupUpdateOnOffReqDto;
 import com.example.week8.dto.agroup.find.AgroupFindResDto;
 import com.example.week8.dto.agroup.save.AgroupSaveReqDto;
+import com.example.week8.entity.Ad;
 import com.example.week8.entity.Agroup;
 import com.example.week8.mapper.AgroupMapper;
 import com.example.week8.repository.AgroupRepository;
@@ -36,6 +37,7 @@ public class AgroupService {
         Agroup agroup = agroupRepository.findById(agroupId).orElseThrow(
                 ()->new IllegalArgumentException("해당하는 아이디가 없습니다.")
         );
+//        List<Ad> ad = agroup.getAd();
         ResponseAgroupDetailsDto responseAgroupDetailsDto = AgroupMapper.INSTANCE.responseAgroupDetailsDto(agroup);
         return responseAgroupDetailsDto;
     }

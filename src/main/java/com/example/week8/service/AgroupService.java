@@ -1,6 +1,7 @@
 package com.example.week8.service;
 
 import com.example.week8.dto.ad.find.AdManageDto;
+import com.example.week8.dto.agroup.find.ResponseAgroupDetailDto;
 import com.example.week8.dto.agroup.find.ResponseAgroupDetailsDto;
 import com.example.week8.dto.agroup.update.AgroupUpdateAgroupActYnReqDto;
 import com.example.week8.dto.agroup.update.AgroupUpdateAgroupNameReqDto;
@@ -33,13 +34,11 @@ public class AgroupService {
     }
 
     //상세조회
-    public ResponseAgroupDetailsDto findDetails(Long agroupId) {
-        Agroup agroup = agroupRepository.findById(agroupId).orElseThrow(
-                ()->new IllegalArgumentException("해당하는 아이디가 없습니다.")
-        );
+    public ResponseAgroupDetailDto findDetails(Long agroupId) {
+        ResponseAgroupDetailDto agroup = agroupRepository.findByAgroupDetailsJoinAd(agroupId);
 //        List<Ad> ad = agroup.getAd();
-        ResponseAgroupDetailsDto responseAgroupDetailsDto = AgroupMapper.INSTANCE.responseAgroupDetailsDto(agroup);
-        return responseAgroupDetailsDto;
+//        ResponseAgroupDetailsDto responseAgroupDetailsDto = AgroupMapper.INSTANCE.responseAgroupDetailsDto(agroup);
+        return agroup;
     }
 
     //그룹 리스트 조회
@@ -94,7 +93,8 @@ public class AgroupService {
         System.out.println("기존 아이디"+updateAgroupNameReqDto.getBeforeAgroupName());
         System.out.println("바꿀 아이디"+updateAgroupNameReqDto.getAfterAgroupName());
         if(agroupRepository.existsByAgroupName(updateAgroupNameReqDto.getAfterAgroupName())) {//바꿀 아이디 검사
-           new IllegalArgumentException("아이디가 존재합니다.");
+            System.out.println("sdsdsdsdssd");
+           throw new IllegalArgumentException("아이디가 존재합니다.");
         }
         Agroup agroup = agroupRepository.findByAgroupName(updateAgroupNameReqDto.getBeforeAgroupName()).orElseThrow(
                 ()-> new IllegalArgumentException("아이디가 존재하지 않습니다.")

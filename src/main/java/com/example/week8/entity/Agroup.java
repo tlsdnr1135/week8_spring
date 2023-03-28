@@ -53,6 +53,7 @@ public class Agroup extends Timestamped{
 
     public AgroupFindResDto toAgroup(){
         return AgroupFindResDto.builder()
+                .id(id)
                 .agroupName(agroupName)
                 .regTime(regTime)
                 .agroupActYn(agroupActYn)

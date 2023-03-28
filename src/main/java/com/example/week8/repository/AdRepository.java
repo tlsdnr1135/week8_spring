@@ -24,7 +24,7 @@ public interface AdRepository extends JpaRepository<Ad, Long> {
     //adActYn일괄 변경
     @Transactional
     @Modifying
-    @Query(value = "update ad a set a.ad_act_yn = :yn where a.ad_id in :list",nativeQuery = true)
+    @Query(value = "update ad a set a.ad_act_yn = :yn,a.ad_use_config_yn = :yn where a.ad_id in :list",nativeQuery = true)
     void updateAdActYnALl(@Param("list")List<Long> longList, @Param("yn")Integer yn);
 
 }

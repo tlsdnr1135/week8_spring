@@ -1,6 +1,7 @@
 package com.example.week8.repository;
 
 import com.example.week8.dto.ad.find.AdManageDto;
+import com.example.week8.dto.agroup.find.ResponseAgroupDetailDto;
 import com.example.week8.entity.Agroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -26,8 +27,15 @@ public interface AgroupRepository extends JpaRepository<Agroup,Long> {
     @Query(value = "update agroup g set g.agroup_use_act_yn = :yn where g.agroup_id in :list",nativeQuery = true)
     void updateOnOff(@Param("list") List<Long> longList,@Param("yn") Integer num);
 
+    //그룹 단일 조회
+    @Query(value = "select g.agroup_id as 'key',g.agroup_name as agroupName, g.agroup_use_act_yn as agroupUseActYn ,ifnull(sum(a.ad_act_yn),0) as adActYn from agroup g \n" +
+            "    left join ad a on g.agroup_id = a.agroup_id\n" +
+            "    where g.agroup_id = :agroupId \n" +
+            "    group by agroup_name" ,nativeQuery = true)
+    public ResponseAgroupDetailDto findByAgroupDetailsJoinAd(@Param(value = "agroupId") Long agroupId);
+
     //그룹명 조회(광고 관리)
-    @Query(value = "select g.reg_time as 'regTime',g.agroup_id as 'key', g.agroup_name as agroupName,ifnull(sum(a.ad_act_yn),0) as adActYn ,ifnull(sum(a.ad_use_config_yn),0) as adUseConfigYn, g.agroup_use_act_yn as agroupUseActYn \n" +
+    @Query(value = "select g.reg_time as 'regTime',g.agroup_id as 'key', g.agroup_name as agroupName,ifnull(sum(a.ad_act_yn),0) as adActYn ,ifnull(sum(a.ad_use_config_yn),0) as adUseConfigYn, g.agroup_use_act_yn as agroupUseActYn , g.agroup_act_yn as agroupActYn \n" +
             "    from agroup g\n" +
             "    left join ad a on a.agroup_id = g.agroup_id and a.adv_id= :names \n" +
             "    where g.agroup_act_yn= 1\n"+

@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AgroupFindResDto {
 
+    private Long id;
     private String agroupName;
     private LocalDateTime regTime;
 
@@ -32,7 +33,8 @@ public class AgroupFindResDto {
 //    }
     @Builder
 
-    public AgroupFindResDto(String agroupName, LocalDateTime regTime, Integer agroupActYn, Integer agroupUseActYn) {
+    public AgroupFindResDto(Long id, String agroupName, LocalDateTime regTime, Integer agroupActYn, Integer agroupUseActYn) {
+        this.id = id;
         this.agroupName = agroupName;
         this.regTime = regTime;
         this.agroupActYn = agroupActYn;

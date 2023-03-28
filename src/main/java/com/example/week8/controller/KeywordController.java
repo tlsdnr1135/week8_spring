@@ -33,7 +33,6 @@ public class KeywordController {
         return ResponseEntity.ok().body(keywordService.keywordListJoinDadDetFind(adId,kwdName));
     }
 
-
     @PostMapping("/api/keyword/save")
     public ResponseEntity<KwdSaveResDto> keywordSave(@RequestBody KwdSaveReqDto kwdSaveReqDto){
         return ResponseEntity.ok().body(keywordService.keywordSave(kwdSaveReqDto));

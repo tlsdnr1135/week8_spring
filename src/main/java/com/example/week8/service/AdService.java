@@ -80,33 +80,63 @@ public class AdService {
         //키워드 저장(ID)
         List<Kwd> dbKwds = keywordRepository.findAll(); //5, 6 키워드 저장
         List<KwdDto> collects = adDto.getKwd(); //1 2 3 4 5
-        List<Kwd> kwds = new ArrayList<>();;
+        List<Kwd> kwds = new ArrayList<>();
 
         //키워드 저장하기
-        if (collects != null){ //키워드 값이 null이 아니면
-            for(int i=0; i<collects.size(); i++){
-                if(!dbKwds.contains(collects.get(i))){ //중복이 안된다면
+        for(Kwd kwd: dbKwds){ //중복이 안된다면
+            for(KwdDto kwdDto: collects){
+                if(!kwd.getKwdName().equals(kwdDto.getKwdName())){
                     //데이터 인서트
-                    Kwd entity = keywordRepository.save(collects.get(i).toKwd());
+                    Kwd entity = keywordRepository.save(kwdDto.toKwd());
                     kwds.add(entity);
-                }else { //중복이면
-                    Kwd kwd =keywordRepository.findByKwdName(collects.get(i).getKwdName());
-                    kwds.add(kwd);
+                }else{//중복이면
+                    Kwd entity =keywordRepository.findByKwdName(kwdDto.getKwdName());
+                    kwds.add(entity);
                 }
             }
         }
 
-        for(int i=0; i<kwds.size(); i++){
-            System.out.println(kwds.get(i).getId());
+
+//        if (collects != null){ //키워드 값이 null이 아니면
+//            for(int i=0; i<collects.size(); i++){
+//                if(!dbKwds.contains(collects.get(i))){ //중복이 안된다면
+//                    //데이터 인서트
+//                    Kwd entity = keywordRepository.save(collects.get(i).toKwd());
+//                    kwds.add(entity);
+//                }else { //중복이면
+//                    Kwd kwd =keywordRepository.findByKwdName(collects.get(i).getKwdName());
+//                    kwds.add(kwd);
+//                }
+//            }
+//        }
+
+        for (Kwd kwd : kwds) {
+            System.out.println("키워드 아이디 값 : " + kwd.getId());
         }
 
-
         //키워드 판매 가능 키워드 false인것 확인
-        for(Kwd dbKwd:dbKwds){
-            if(dbKwd.getSellPossKwdYn() == 0){
+        for(Kwd kwd:kwds){
+            if(kwd.getSellPossKwdYn() == 0){
                 throw new RuntimeException("판매 가능 키워드가 False입니다.");
             }
         }
+
+        System.out.println("----------------확인-------------------");
+        System.out.println();
+        System.out.println("----------------확인-------------------");
+
+        //키워드 개수에 따라 직접광고상세 만들기
+        for(Kwd kwd:kwds){
+            if(kwd.getManualCnrKwdYn() == 1){ //수동
+                System.out.println("여기가 수동");
+            }else if(kwd.getManualCnrKwdYn() == 0){ //일반
+                System.out.println("여기가 일반");
+            }
+        }
+
+
+
+
         //키워드 수동 검수 키워드 false인것 확인
 
         //검수 요청(나증에)

@@ -19,8 +19,6 @@ public interface AgroupRepository extends JpaRepository<Agroup,Long> {
     Optional<Agroup> findByAgroupName(String str);
     Boolean existsByAgroupName(String name);
 
-
-
     //On/Off 일괄 변경(agroup_use_act_yn)
     @Transactional
     @Modifying

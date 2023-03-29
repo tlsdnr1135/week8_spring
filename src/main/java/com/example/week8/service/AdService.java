@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -32,20 +33,21 @@ public class AdService {
         System.out.println(adDto.getItem().getId());
         //광고주 아이디 가져오기.
         Adv adv = advRepository.findById(adDto.getAdv().getName()).get();
-        System.out.println("Adv 아이디 : "+ adv.getName());
 
         //광고그룹 아이디 저장. -> 아이디 리턴 받기
-        //TODO 중복 거르기
-        Agroup findAgroup = agroupRepository.findByAgroupName(adDto.getAgroup().getAgroupName()).orElseThrow(
-                () -> new IllegalArgumentException("이미 존재하는 광고그룹 아이디 입니다.")
-        );
-        if(findAgroup == null){
+        //중복 체크
+        Optional<Agroup> agroupOp = agroupRepository.findByAgroupName(adDto.getAgroup().getAgroupName());
+        Long agroupId;
+        if(agroupOp.isPresent()){ //값이 존재하면
+            agroupId = agroupOp.get().getId(); //아이디 바로 가져오기
+        }else{
             adDto.getAgroup().setAgroupActYn(1); //기본 값.
             adDto.getAgroup().setAgroupUseActYn(1); //기본 값.
-            findAgroup = agroupRepository.save(adDto.getAgroup());
-            System.out.println("Agroup 아이디 : "+ findAgroup.getId());
+            agroupId = agroupRepository.save(adDto.getAgroup()).getId();
         }
-
+        Agroup agroup = Agroup.builder()
+                .id(agroupId)
+                .build();
 
         //아이템 아이디 가져오기.
         Item item = itemRepository.findById(adDto.getItem().getId()).get();
@@ -55,22 +57,24 @@ public class AdService {
         //TODO 객체에 id값만 넣어주기!
         Ad ad = Ad.builder()
                 .adv(adv)
-                .agroup(findAgroup)
+                .agroup(agroup)
                 .item(item)
                 .adUseConfigYn(1)
                 .adActYn(1)
                 .build();
         //연관관계저장 ad->agroup
+
         //1. 전체 객체를 넣고 출력
-        findAgroup.getAd().add(ad);
+        agroup.getAd().add(ad); //현재 내가 직접 만든 객체
 
         //2. 가짜 객체를 넣고 출력
 //        Ad ad1 = Ad.builder()
 //                .id(99L)
 //                .build();
 //        findAgroup.getAd().add(ad1);
-
         adRepository.save(ad);
+
+
         System.out.println("광고 아이디 불러오기 :" + ad.getId());
 
         //키워드 저장(ID)
@@ -91,11 +95,23 @@ public class AdService {
                 }
             }
         }
+
         for(int i=0; i<kwds.size(); i++){
             System.out.println(kwds.get(i).getId());
         }
 
+
+        //키워드 판매 가능 키워드 false인것 확인
+        for(Kwd dbKwd:dbKwds){
+            if(dbKwd.getSellPossKwdYn() == 0){
+                throw new RuntimeException("판매 가능 키워드가 False입니다.");
+            }
+        }
+        //키워드 수동 검수 키워드 false인것 확인
+
         //검수 요청(나증에)
+        
+
 
         //직접광고 상세 입찰
         if(collects == null) {

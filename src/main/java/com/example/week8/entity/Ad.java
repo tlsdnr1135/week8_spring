@@ -29,7 +29,7 @@ public class Ad extends Timestamped{
     @JoinColumn(name = "AGROUP_ID",nullable = false)
     private Agroup agroup;//광고 그룹 ID (FK)
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "ITEM_ID",nullable = false)
     private Item item; //상품 ID (FK)
 

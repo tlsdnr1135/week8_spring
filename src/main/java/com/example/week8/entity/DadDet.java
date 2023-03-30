@@ -26,12 +26,12 @@ public class DadDet extends Timestamped{
     private Kwd kwd;//키워드 ID(FK)
 
     @Column(nullable = false)
-    private String dadCnr;//직접광고 검수 상태, 직접광고 검수 상태: APPROVAL(추후에 REJECT도 사용)
+    private String dadCnrStatus;//직접광고 검수 상태, 직접광고 검수 상태: APPROVAL(추후에 REJECT도 사용)
 
     @OneToOne
 //    @JoinColumn(name = "CnrReq",nullable = false)
     @JoinColumn(name = "CNR_REQ_ID")
-    private CnrReq cnrReqId;//검수 요청 ID(FK), 신규로 적재될 검수 요청ID 기재
+    private CnrReq cnrReq;//검수 요청 ID(FK), 신규로 적재될 검수 요청ID 기재
 
     @Column(nullable = false)
     private Integer dadUseConfigYn;//직접광고 사용 설정 여부
@@ -49,8 +49,8 @@ public class DadDet extends Timestamped{
         this.id = id;
         this.ad = ad;
         this.kwd = kwd;
-        this.dadCnr = dadCnr;
-        this.cnrReqId = cnrReqId;
+        this.dadCnrStatus = dadCnr;
+        this.cnrReq = cnrReqId;
         this.dadUseConfigYn = dadUseConfigYn;
         this.dadActYn = dadActYn;
         this.regTime = regTime;

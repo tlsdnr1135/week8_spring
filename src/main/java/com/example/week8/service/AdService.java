@@ -27,6 +27,7 @@ public class AdService {
     private final KeywordRepository keywordRepository;
     private final DaddetRepository daddetRepository;
     private final DaddetbidRepository daddetbidRepository;
+    private final CnrReqRepository cnrReqRepository;
 
     @Transactional
     public Object saveAd(AdDto adDto){
@@ -83,32 +84,16 @@ public class AdService {
         List<Kwd> kwds = new ArrayList<>();
 
         //키워드 저장하기
-        for(Kwd kwd: dbKwds){ //중복이 안된다면
-            for(KwdDto kwdDto: collects){
-                if(!kwd.getKwdName().equals(kwdDto.getKwdName())){
-                    //데이터 인서트
-                    Kwd entity = keywordRepository.save(kwdDto.toKwd());
-                    kwds.add(entity);
-                }else{//중복이면
-                    Kwd entity =keywordRepository.findByKwdName(kwdDto.getKwdName());
-                    kwds.add(entity);
-                }
+        for(KwdDto kwdDto: collects){
+            Optional<Kwd> kwd = keywordRepository.findByKwdName(kwdDto.toKwd().getKwdName());
+            if(kwd.isEmpty()){ //키워드가 디비에 없으면
+                //데이터 인서트
+                Kwd entity = keywordRepository.save(kwdDto.toKwd());
+                kwds.add(entity);
+            }else{ //중복이면
+                kwds.add(kwd.get());
             }
         }
-
-
-//        if (collects != null){ //키워드 값이 null이 아니면
-//            for(int i=0; i<collects.size(); i++){
-//                if(!dbKwds.contains(collects.get(i))){ //중복이 안된다면
-//                    //데이터 인서트
-//                    Kwd entity = keywordRepository.save(collects.get(i).toKwd());
-//                    kwds.add(entity);
-//                }else { //중복이면
-//                    Kwd kwd =keywordRepository.findByKwdName(collects.get(i).getKwdName());
-//                    kwds.add(kwd);
-//                }
-//            }
-//        }
 
         for (Kwd kwd : kwds) {
             System.out.println("키워드 아이디 값 : " + kwd.getId());
@@ -122,15 +107,76 @@ public class AdService {
         }
 
         System.out.println("----------------확인-------------------");
-        System.out.println();
+        System.out.println("DTO "+collects.size());
+        System.out.println("진짜 배열 "+kwds.size());
         System.out.println("----------------확인-------------------");
 
         //키워드 개수에 따라 직접광고상세 만들기
-        for(Kwd kwd:kwds){
-            if(kwd.getManualCnrKwdYn() == 1){ //수동
+        for(int i=0; i<kwds.size(); i++){
+            if(kwds.get(i).getManualCnrKwdYn() == 1){ //수동
                 System.out.println("여기가 수동");
-            }else if(kwd.getManualCnrKwdYn() == 0){ //일반
+                //검수 요청
+                CnrReq cnrReq = CnrReq.builder()
+                        .dadDetId(new DadDet()) //직접광고 상세 ID
+                        .cnrIngStatus("REQ") //검수 진행 상태
+                        .cnrInputDiv("INPUT_CNR") //검수 입력 구분
+                        .cnrProcTime(null) //처리시간
+                        .cnrComplete(0) //검수 완료 여부(N)
+                        .cnrFailCause(null) //검수 실패 사유
+                        .cnrFailComt(null) //검수 실패 코멘트
+                        .build();
+                cnrReqRepository.save(cnrReq); //나중에 광고 상세 아이디 넣어줘야함
+
+                //직접광고 상세
+                DadDet dadDet = DadDet.builder()
+                        .ad(ad)
+                        .kwd(kwds.get(i)) //키워드
+                        .dadCnr("REQ") //직접광고 검수 상태
+                        .cnrReqId(cnrReq) //검수 요청
+                        .dadUseConfigYn(1)
+                        .dadActYn(1)
+                        .build();
+                daddetRepository.save(dadDet);
+                cnrReq.setDadDet(dadDet); //빈 객체를 갈아 끼워줌
+
+                //직접광고 상세 입찰
+                DadDetBid dadDetBid = DadDetBid.builder()
+                        .dadDet(dadDet)
+                        .bidCost(collects.get(i).getBidCost()) //키워드 없어서 입찰금액 없음.
+                        .build();
+                daddetbidRepository.save(dadDetBid);
+
+            }else if(kwds.get(i).getManualCnrKwdYn() == 0){ //일반
                 System.out.println("여기가 일반");
+                //검수 요청
+                CnrReq cnrReq = CnrReq.builder()
+                        .dadDetId(new DadDet()) //직접광고 상세 ID
+                        .cnrIngStatus("APPROVAL") //검수 진행 상태
+                        .cnrInputDiv("INPUT_CNR") //검수 입력 구분
+                        .cnrComplete(1) //검수 완료 여부(N)
+                        .cnrFailCause(null) //검수 실패 사유
+                        .cnrFailComt(null) //검수 실패 코멘트
+                        .build();
+                cnrReqRepository.save(cnrReq); //나중에 광고 상세 아이디 넣어줘야함
+                cnrReq.setcnrProcTime(cnrReq.getCnrReqTime()); //처리시간 null 처리
+                //직접광고 상세
+                DadDet dadDet = DadDet.builder()
+                        .ad(ad)
+                        .kwd(kwds.get(i)) //키워드
+                        .dadCnr("APPROVAL") //직접광고 검수 상태
+                        .cnrReqId(cnrReq) //검수 요청
+                        .dadUseConfigYn(1)
+                        .dadActYn(1)
+                        .build();
+                daddetRepository.save(dadDet);
+                cnrReq.setDadDet(dadDet); //빈 객체를 갈아 끼워줌
+
+                //직접광고 상세 입찰
+                DadDetBid dadDetBid = DadDetBid.builder()
+                        .dadDet(dadDet)
+                        .bidCost(collects.get(i).getBidCost()) //키워드 없어서 입찰금액 없음.
+                        .build();
+                daddetbidRepository.save(dadDetBid);
             }
         }
 
@@ -144,48 +190,48 @@ public class AdService {
 
 
         //직접광고 상세 입찰
-        if(collects == null) {
-            //키워드 없으면 광고만 등록
-            //직접광고 상세
-            DadDet dadDet = DadDet.builder()
-                    .ad(ad)
-                    .kwd(null)
-                    .dadCnr("APPROVAL")
-                    .cnrReqId(null) //검수 요청
-                    .dadUseConfigYn(1)
-                    .dadActYn(1)
-                    .build();
-            daddetRepository.save(dadDet);
-
-            //직접광고 상세 저장
-            DadDetBid dadDetBid = DadDetBid.builder()
-                    .dadDet(dadDet)
-                    .bidCost(0L) //키워드 없어서 입찰금액 없음.
-                    .build();
-
-            daddetbidRepository.save(dadDetBid);
-        }else{
-            //키워드 있으면 광고와 키워드 등록
-            //스트림으로 해도 될듯?
-            for(int i=0; i<kwds.size(); i++){
-                DadDet dadDet = DadDet.builder()
-                        .ad(ad)
-                        .kwd(kwds.get(i))
-                        .dadCnr("APPROVAL")
-                        .cnrReqId(null) //검수 요청
-                        .dadUseConfigYn(1)
-                        .dadActYn(1)
-                        .build();
-                daddetRepository.save(dadDet);
-
-                //직접광고 상세 저장
-                DadDetBid dadDetBid = DadDetBid.builder()
-                        .dadDet(dadDet)
-                        .bidCost(collects.get(i).getBidCost()) //dto
-                        .build();
-                daddetbidRepository.save(dadDetBid);
-            }
-        }
+//        if(collects == null) {
+//            //키워드 없으면 광고만 등록
+//            //직접광고 상세
+//            DadDet dadDet = DadDet.builder()
+//                    .ad(ad)
+//                    .kwd(null)
+//                    .dadCnr("APPROVAL")
+//                    .cnrReqId(null) //검수 요청
+//                    .dadUseConfigYn(1)
+//                    .dadActYn(1)
+//                    .build();
+//            daddetRepository.save(dadDet);
+//
+//            //직접광고 상세 저장
+//            DadDetBid dadDetBid = DadDetBid.builder()
+//                    .dadDet(dadDet)
+//                    .bidCost(0L) //키워드 없어서 입찰금액 없음.
+//                    .build();
+//
+//            daddetbidRepository.save(dadDetBid);
+//        }else{
+//            //키워드 있으면 광고와 키워드 등록
+//            //스트림으로 해도 될듯?
+//            for(int i=0; i<kwds.size(); i++){
+//                DadDet dadDet = DadDet.builder()
+//                        .ad(ad)
+//                        .kwd(kwds.get(i))
+//                        .dadCnr("APPROVAL")
+//                        .cnrReqId(null) //검수 요청
+//                        .dadUseConfigYn(1)
+//                        .dadActYn(1)
+//                        .build();
+//                daddetRepository.save(dadDet);
+//
+//                //직접광고 상세 저장
+//                DadDetBid dadDetBid = DadDetBid.builder()
+//                        .dadDet(dadDet)
+//                        .bidCost(collects.get(i).getBidCost()) //dto
+//                        .build();
+//                daddetbidRepository.save(dadDetBid);
+//            }
+//        }
         System.out.println("ssssssssssssssssssssssssssssssssssssssss");
         return null;
     }

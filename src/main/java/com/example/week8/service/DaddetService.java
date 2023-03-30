@@ -1,10 +1,13 @@
 package com.example.week8.service;
 
+import com.example.week8.dto.daddet.find.ResponseDadDetListJoinAdKwdItem;
 import com.example.week8.dto.daddet.update.RequestDadDetActYnDeleteAllDto;
 import com.example.week8.dto.daddet.update.RequestDadDetUseConfigYnAllDto;
 import com.example.week8.repository.DaddetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,5 +21,9 @@ public class DaddetService {
 
     public void updateDaddetActYnDeleteAll(RequestDadDetActYnDeleteAllDto requestDadDetActYnDeleteAllDto) {
         daddetRepository.updateDadActYnAll2(requestDadDetActYnDeleteAllDto.getLongList(),0);
+    }
+
+    public List<ResponseDadDetListJoinAdKwdItem> getDaddetListsJoinAdkwdItem(String kwdName) {
+        return daddetRepository.getDaddetListsJoinAdkwdItem(kwdName);
     }
 }

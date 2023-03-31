@@ -44,7 +44,6 @@ public class DadDet extends Timestamped{
 
 
     @Builder
-
     public DadDet(Long id, Ad ad, Kwd kwd, String dadCnr, CnrReq cnrReqId, Integer dadUseConfigYn, Integer dadActYn, LocalDateTime regTime) {
         this.id = id;
         this.ad = ad;
@@ -55,4 +54,12 @@ public class DadDet extends Timestamped{
         this.dadActYn = dadActYn;
         this.regTime = regTime;
     }
+
+    public void updateConfirmReject(){
+        this.dadCnrStatus="APPROVAL";
+    }
+    public void updateConfirmApproval(){
+        this.dadCnrStatus="APPROVAL";
+    }
+
 }

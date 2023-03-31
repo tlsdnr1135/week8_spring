@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.PrimaryKeyJoinColumn;
+import java.time.LocalDateTime;
 
 @Entity(name = "ADMIN")
 @Getter
@@ -21,10 +22,10 @@ public class Admin extends Account{
 
     @CreatedDate
     @Column(name = "REG_TIME")
-    private String temp;
+    private LocalDateTime temp;
 
     @Builder
-    public Admin(String name, String password, AccountRoleEnum role, String temp) {
+    public Admin(String name, String password, AccountRoleEnum role, LocalDateTime temp) {
         super(name, password, role);
         this.temp = temp;
     }

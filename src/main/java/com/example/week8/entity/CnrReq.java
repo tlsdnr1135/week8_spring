@@ -21,8 +21,10 @@ public class CnrReq extends Timestamped{ //검수 요청
     private Long id; //상품 아이디
 
     //TODO 직접광고 상세 ID는 PK가 아닌가?
-    @OneToOne(mappedBy = "cnrReq")
+//    @OneToOne(mappedBy = "cnrReq")
 //    @Column(nullable = false)
+    @OneToOne
+    @JoinColumn(name="DAD_DET_ID")
     private DadDet dadDet;//직접광고 상세 ID
 
     @Column(nullable = false)
@@ -39,20 +41,20 @@ public class CnrReq extends Timestamped{ //검수 요청
     private LocalDateTime cnrProcTime; //검수 처리시간
 
     @Column(nullable = false)
-    private Integer cnrComplete; //검수 완료여부
+    private Integer cnrCompleteYn; //검수 완료여부
 
     private String cnrFailCause; //검수 실패사유
     private String cnrFailComt;//검수 실패 코멘트
 
     @Builder
-    public CnrReq(Long id, DadDet dadDetId, String cnrIngStatus, String cnrInputDiv, LocalDateTime cnrReqTime, LocalDateTime cnrProcTime, Integer cnrComplete, String cnrFailCause, String cnrFailComt) {
+    public CnrReq(Long id, DadDet dadDetId, String cnrIngStatus, String cnrInputDiv, LocalDateTime cnrReqTime, LocalDateTime cnrProcTime, Integer cnrCompleteYn, String cnrFailCause, String cnrFailComt) {
         this.id = id;
         this.dadDet = dadDetId;
         this.cnrIngStatus = cnrIngStatus;
         this.cnrInputDiv = cnrInputDiv;
         this.cnrReqTime = cnrReqTime;
         this.cnrProcTime = cnrProcTime;
-        this.cnrComplete = cnrComplete;
+        this.cnrCompleteYn = cnrCompleteYn;
         this.cnrFailCause = cnrFailCause;
         this.cnrFailComt = cnrFailComt;
     }
@@ -64,6 +66,17 @@ public class CnrReq extends Timestamped{ //검수 요청
     //처리시간 널 처리
     public void setcnrProcTime(LocalDateTime cnrProcTime){
         this.cnrProcTime = cnrProcTime;
+    }
+    //검수 처리(반려)
+    public void updateConfirmReject(){
+        this.cnrIngStatus="REJECT";
+        this.cnrProcTime=LocalDateTime.now();
+        this.cnrCompleteYn=1;
+    }
+    public void updateConfirmApproval(){
+        this.cnrIngStatus="APPROVAL";
+        this.cnrProcTime=LocalDateTime.now();
+        this.cnrCompleteYn=1;
     }
 
 

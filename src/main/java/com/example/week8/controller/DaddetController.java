@@ -1,6 +1,8 @@
 package com.example.week8.controller;
 
 import com.example.week8.dto.daddet.find.ResponseDadDetListJoinAdKwdItem;
+import com.example.week8.dto.daddet.update.RequestConfirmApprovalDto;
+import com.example.week8.dto.daddet.update.RequestConfirmRejectDto;
 import com.example.week8.dto.daddet.update.RequestDadDetActYnDeleteAllDto;
 import com.example.week8.dto.daddet.update.RequestDadDetUseConfigYnAllDto;
 import com.example.week8.service.DaddetService;
@@ -31,6 +33,18 @@ public class DaddetController {
         System.out.println(requestDadDetUseConfigYnAllDto.getLongList().size());
         daddetService.updateDadUseConfigYnOnOffAll(requestDadDetUseConfigYnAllDto);
         return ResponseEntity.ok().body(null);
+    }
+
+    //검수 처리(반려)
+    @PutMapping("/api/daddet/confirm/reject")
+    public ResponseEntity<?> updateConfirmReject(@RequestBody RequestConfirmRejectDto RequestConfirmRejectDto){
+        return ResponseEntity.ok().body(daddetService.updateConfirmReject(RequestConfirmRejectDto));
+    }
+
+    //검수 처리(승인)
+    @PutMapping("/api/daddet/confirm/approval")
+    public ResponseEntity<?> updateConfirmApproval(@RequestBody RequestConfirmApprovalDto requestConfirmApprovalDto){
+        return ResponseEntity.ok().body(daddetService.updateConfirmApproval(requestConfirmApprovalDto));
     }
 
 

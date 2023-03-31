@@ -4,6 +4,7 @@ import com.example.week8.dto.AdDto;
 import com.example.week8.dto.KwdDto;
 import com.example.week8.dto.ad.update.RequestAdActYnAllDto;
 import com.example.week8.dto.ad.update.RequestAdUseConfigYnAllDto;
+import com.example.week8.dto.ad.update.ResponseCurrentStateAdListDto;
 import com.example.week8.entity.*;
 import com.example.week8.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -113,15 +114,21 @@ public class AdService {
 
         //키워드 개수에 따라 직접광고상세 만들기
         for(int i=0; i<kwds.size(); i++){
+            //더미
+//            DadDet temp = DadDet.builder()
+//                    .id(0L)
+//                    .build();
+
             if(kwds.get(i).getManualCnrKwdYn() == 1){ //수동
                 System.out.println("여기가 수동");
+
                 //검수 요청
                 CnrReq cnrReq = CnrReq.builder()
                         .dadDetId(new DadDet()) //직접광고 상세 ID
                         .cnrIngStatus("REQ") //검수 진행 상태
                         .cnrInputDiv("INPUT_CNR") //검수 입력 구분
                         .cnrProcTime(null) //처리시간
-                        .cnrComplete(0) //검수 완료 여부(N)
+                        .cnrCompleteYn(0) //검수 완료 여부(N)
                         .cnrFailCause(null) //검수 실패 사유
                         .cnrFailComt(null) //검수 실패 코멘트
                         .build();
@@ -153,7 +160,7 @@ public class AdService {
                         .dadDetId(new DadDet()) //직접광고 상세 ID
                         .cnrIngStatus("APPROVAL") //검수 진행 상태
                         .cnrInputDiv("INPUT_CNR") //검수 입력 구분
-                        .cnrComplete(1) //검수 완료 여부(N)
+                        .cnrCompleteYn(1) //검수 완료 여부(N)
                         .cnrFailCause(null) //검수 실패 사유
                         .cnrFailComt(null) //검수 실패 코멘트
                         .build();
@@ -179,60 +186,7 @@ public class AdService {
                 daddetbidRepository.save(dadDetBid);
             }
         }
-
-
-
-
-        //키워드 수동 검수 키워드 false인것 확인
-
-        //검수 요청(나증에)
-        
-
-
-        //직접광고 상세 입찰
-//        if(collects == null) {
-//            //키워드 없으면 광고만 등록
-//            //직접광고 상세
-//            DadDet dadDet = DadDet.builder()
-//                    .ad(ad)
-//                    .kwd(null)
-//                    .dadCnr("APPROVAL")
-//                    .cnrReqId(null) //검수 요청
-//                    .dadUseConfigYn(1)
-//                    .dadActYn(1)
-//                    .build();
-//            daddetRepository.save(dadDet);
-//
-//            //직접광고 상세 저장
-//            DadDetBid dadDetBid = DadDetBid.builder()
-//                    .dadDet(dadDet)
-//                    .bidCost(0L) //키워드 없어서 입찰금액 없음.
-//                    .build();
-//
-//            daddetbidRepository.save(dadDetBid);
-//        }else{
-//            //키워드 있으면 광고와 키워드 등록
-//            //스트림으로 해도 될듯?
-//            for(int i=0; i<kwds.size(); i++){
-//                DadDet dadDet = DadDet.builder()
-//                        .ad(ad)
-//                        .kwd(kwds.get(i))
-//                        .dadCnr("APPROVAL")
-//                        .cnrReqId(null) //검수 요청
-//                        .dadUseConfigYn(1)
-//                        .dadActYn(1)
-//                        .build();
-//                daddetRepository.save(dadDet);
-//
-//                //직접광고 상세 저장
-//                DadDetBid dadDetBid = DadDetBid.builder()
-//                        .dadDet(dadDet)
-//                        .bidCost(collects.get(i).getBidCost()) //dto
-//                        .build();
-//                daddetbidRepository.save(dadDetBid);
-//            }
-//        }
-        System.out.println("ssssssssssssssssssssssssssssssssssssssss");
+        System.out.println("------------------------------------------------------------");
         return null;
     }
 
@@ -254,5 +208,10 @@ public class AdService {
     public void updateAdActYnALl(RequestAdActYnAllDto requestAdActYnAllDto){
         adRepository.updateAdActYnALl(requestAdActYnAllDto.getLongList(),requestAdActYnAllDto.getYn());
         daddetRepository.updateDadActYnAll(requestAdActYnAllDto.getLongList(),requestAdActYnAllDto.getYn());
+    }
+
+    //광고 현황 테이블
+    public List<ResponseCurrentStateAdListDto> findCurrentStateAdLists() {
+        return adRepository.findCurrentStateAdLists();
     }
 }

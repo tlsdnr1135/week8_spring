@@ -50,7 +50,6 @@ public class AccountReqDto {
                 .name(name)
                 .password(password)
                 .role(AccountRoleEnum.valueOf(role))
-                .temp("나는")
                 .build();
     }
 

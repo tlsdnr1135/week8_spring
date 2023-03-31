@@ -3,11 +3,15 @@ package com.example.week8.controller;
 import com.example.week8.dto.AdDto;
 import com.example.week8.dto.ad.update.RequestAdActYnAllDto;
 import com.example.week8.dto.ad.update.RequestAdUseConfigYnAllDto;
+import com.example.week8.dto.ad.update.ResponseCurrentStateAdListDto;
 import com.example.week8.repository.AdRepository;
 import com.example.week8.service.AdService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,6 +22,12 @@ public class AdController {
     @GetMapping("/api/ad/find")
     public ResponseEntity<Object> findAll(){
         return ResponseEntity.ok().body(adService.findAll());
+    }
+
+    //광고 현황 테이블
+    @GetMapping("/api/ad/lists/currentstate")
+    public ResponseEntity<List<ResponseCurrentStateAdListDto>> findCurrentStateAdLists(){
+        return ResponseEntity.ok().body(adService.findCurrentStateAdLists());
     }
 
     @PostMapping("/api/ad/save")

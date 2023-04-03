@@ -21,7 +21,7 @@ public class TaskRequestController {
         System.out.println(formData.getOriginalFilename());
         System.out.println(formData.getName());
         System.out.println(formData.getResource());
-        formData.transferTo(new File("C:\\java_workspace\\IntelliJ_workspace"));
+        formData.transferTo(new File("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\java\\com\\example\\week8\\controller"));
 //        System.out.println(formData.getResource());
         taskRequestService.saveFiles();
         return ResponseEntity.ok().body(null);

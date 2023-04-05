@@ -19,6 +19,11 @@ spring:
       hibernate:
         format_sql: true
 
+  batch:
+    job:
+      names: ${job.name:NONE}
+      enabled: false
+
 
 
 #  batch:

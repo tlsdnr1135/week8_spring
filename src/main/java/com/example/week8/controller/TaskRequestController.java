@@ -5,6 +5,7 @@ import com.example.week8.service.TaskRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URLDecoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,26 +45,8 @@ public class TaskRequestController {
 
     //파일 다운로드
     @GetMapping(value = "/api/v1/down/files", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-    public ResponseEntity<Resource> downFiles(){
-        ResponseEntity<Resource> result = null;
-
-        try{
-            String originFileName = URLDecoder.decode("Test.csv", "UTF-8");//
-
-            Resource file = new FileSystemResource("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\java\\com\\example\\week8\\file/" + File.separator + originFileName);
-
-            if(!file.exists()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-//            String onlyFileName = originFileName.substring(originFileName.lastIndexOf("_") + 1);
-            HttpHeaders header = new HttpHeaders();
-//            header.add("Content-Disposition", "attachment;);
-
-            result = new ResponseEntity<>(file, header, HttpStatus.OK);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
-        return result;
+    public ResponseEntity<Resource> downFiles(@RequestParam(value="fileName", required = true) String fileName) throws MalformedURLException {
+        return ResponseEntity.ok().body(taskRequestService.downFiles(fileName));
     }
 
 

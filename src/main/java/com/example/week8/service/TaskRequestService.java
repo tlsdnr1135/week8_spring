@@ -49,13 +49,14 @@ public class TaskRequestService {
                 .requestDate(parsedLocalDateTimeNow)
                 .taskStatus("REQ")
                 .taskName(taskName)
-                .taskPath("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\java\\com\\example\\week8\\file/")
+//                .taskPath("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\java\\com\\example\\week8\\file/")
+                .taskPath("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/")
                 .build();
 
         taskRequestRepository.save(taskRequest);
 
 
-        multipartFile.transferTo(new File("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\java\\com\\example\\week8\\file/"+taskName+"."+arr[1]));
+        multipartFile.transferTo(new File("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+"."+arr[1]));
     }
 
     //TaskRequest 리스트 가져오기

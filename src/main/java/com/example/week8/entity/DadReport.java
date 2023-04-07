@@ -1,5 +1,6 @@
 package com.example.week8.entity;
 
+import com.example.week8.entity.csv.DadReportCsv;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,12 +23,12 @@ public class DadReport {
 
     private Long showCount; //노출 수
     private Long clickCount; //클릭 수
-    private Long avgShowRank; //평균 노출 순위
-    private Long avgCpc; //평균 CPC
+    private Double avgShowRank; //평균 노출 순위
+    private Double avgCpc; //평균 CPC
     private Long adCost; //광고비
 
     @Builder
-    public DadReport(String advId, String requestDate, Long dadDetId, Long showCount, Long clickCount, Long avgShowRank, Long avgCpc, Long adCost) {
+    public DadReport(String advId, String requestDate, Long dadDetId, Long showCount, Long clickCount, Double avgShowRank, Double avgCpc, Long adCost) {
         this.advId = advId;
         this.requestDate = requestDate;
         this.dadDetId = dadDetId;
@@ -37,4 +38,14 @@ public class DadReport {
         this.avgCpc = avgCpc;
         this.adCost = adCost;
     }
+
+    //중복일 경우
+    public void isDadReportDuplication(DadReportCsv item){
+        this.showCount = item.getShowCount();
+        this.clickCount = item.getClickCount();
+        this.adCost = item.getAdCost();
+        this.avgShowRank = (double) Math.round( ((this.avgShowRank + item.getAvgShowRank())/2)*100 )/100;
+        this.avgCpc = (double) Math.round( ((this.avgShowRank + item.getAvgCpc())/2)*100 )/100.0;
+    }
+
 }

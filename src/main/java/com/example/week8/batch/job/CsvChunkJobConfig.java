@@ -49,6 +49,8 @@ public class CsvChunkJobConfig {
         return stepBuilderFactory.get("step1")
                 .<DadReportCsv, DadReportCsv>chunk(3)
                 .reader(itemReader)
+                .faultTolerant().skipLimit(0)
+                .skip(NullPointerException.class)
                 .processor(csvProcesser)
                 .writer(customItemWriter)
 //                .listener(csvWriteListener)

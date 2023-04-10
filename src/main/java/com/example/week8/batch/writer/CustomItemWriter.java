@@ -17,6 +17,7 @@ public class CustomItemWriter<T> implements ItemWriter {
 
     @Override
     public void write(List items) throws Exception {
+        System.out.println(" -------------------------------------------------------------------------");
         System.out.println("나는 아이템 라이터");
         for(DadReport dadReport : (List<DadReport>) items){
             System.out.println("직접 광고 상세 아이디 "+dadReport.getDadDetId());
@@ -27,6 +28,7 @@ public class CustomItemWriter<T> implements ItemWriter {
             System.out.println("광고비 "+dadReport.getAdCost());
             System.out.println("평균 클릭수 "+dadReport.getAvgCpc());
             System.out.println("평균 노출 랭크 "+dadReport.getAvgShowRank());
+            System.out.println(" -------------------------------------------------------------------------");
         }
         dadReportRepository.saveAll(items);
     }

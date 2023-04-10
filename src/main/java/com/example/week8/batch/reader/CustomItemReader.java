@@ -31,22 +31,29 @@ public class CustomItemReader {
     public FlatFileItemReader<DadReportCsv> read(@Value("#{jobParameters[taskName]}") String taskName){
 
 
-        System.out.println("여기가 아이템 리더");
-        System.out.println("잡 파라미터 " + taskName);
+        System.out.println("-------------------------------- 여기가 아이템 리더 --------------------------------------------");
+        System.out.println("잡 파라미터 : " + taskName);
 
-        FlatFileItemReader<DadReportCsv> build = new FlatFileItemReaderBuilder<DadReportCsv>()
-                .name("DadReportCsv")
-                .resource(new PathResource("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+".csv"))
-                .fieldSetMapper(new BeanWrapperFieldSetMapper<>())
-                .targetType(DadReportCsv.class)
-                .linesToSkip(1)
+        try{
+            FlatFileItemReader<DadReportCsv> build = new FlatFileItemReaderBuilder<DadReportCsv>()
+                    .name("DadReportCsv")
+                    .resource(new PathResource("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+".csv"))
+                    .fieldSetMapper(new BeanWrapperFieldSetMapper<>())
+                    .targetType(DadReportCsv.class)
+                    .linesToSkip(1)
 //                .skippedLinesCallback()
-                .strict(true)
+                    .strict(true)
 //                .saveState(false)
-                .delimited()
-                .names("requestDate", "dadDetId", "showCount", "clickCount", "avgShowRank", "avgCpc", "adCost")
-                .build();
-        return build;
+                    .delimited()
+                    .names("requestDate", "dadDetId", "showCount", "clickCount", "avgShowRank", "avgCpc", "adCost")
+                    .build();
+            return build;
+        }catch (Exception e){
+            System.out.println(e);
+            System.out.println("여기서 에러 리더 -----------------------------------------------------");
+        }
+
+        return null;
     }
 
 }

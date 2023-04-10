@@ -39,7 +39,7 @@ public class CsvJobListener implements JobExecutionListener {
         System.out.println();
 
         TaskRequest byTaskName = taskRequestRepository.findByTaskName(jobExecution.getJobParameters().getString("taskName"));
-        if(jobExecution.getStatus().equals("FAILED")){
+        if(String.valueOf(jobExecution.getStatus()).equals("FAILED")){
             System.out.println("들어오긴 하니!???");
             System.out.println("들어오긴 하니!???");
             System.out.println("들어오긴 하니!???");

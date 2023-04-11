@@ -32,6 +32,7 @@ public class AdController {
 
     @PostMapping("/api/ad/save")
     public ResponseEntity<Object> saveAd(@RequestBody AdDto adDto){
+        System.out.println("광고 저장 시작");
         return ResponseEntity.ok().body(adService.saveAd(adDto));
     }
 

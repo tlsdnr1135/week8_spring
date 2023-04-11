@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -44,9 +45,17 @@ public class TaskRequestController {
     }
 
     //파일 다운로드
-    @GetMapping(value = "/api/v1/down/files", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-    public ResponseEntity<Resource> downFiles(@RequestParam(value="fileName", required = true) String fileName) throws MalformedURLException {
-        return ResponseEntity.ok().body(taskRequestService.downFiles(fileName));
+    @GetMapping(value = "/api/v1/down/files")
+    public ResponseEntity<Resource> downFiles(@RequestParam(value="fileName", required = true) String fileName, HttpServletResponse response) throws MalformedURLException {
+//        response.setHeader("Content-Transfer-Encoding", "utf-8");
+//        response.setHeader("wokk","werwer");
+//        response.setCharacterEncoding("utf-8");
+//        response.setContentType("application/octet-stream");
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.add("");
+
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType("text/csv;charset=x-windows-949")).body(taskRequestService.downFiles(fileName));
+//        return ResponseEntity.ok().contentType(me).body(taskRequestService.downFiles(fileName));
     }
 
 

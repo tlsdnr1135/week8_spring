@@ -14,11 +14,11 @@ public class ResponseDadReportListDto {
     private String key;
     private String date;
     private Long dadDetId;
-    private Long showCount; //³ëÃâ ¼ö
-    private Long clickCount; //Å¬¸¯ ¼ö
-    private Double avgShowRank; //Æò±Õ ³ëÃâ ¼øÀ§
-    private Double avgCpc; //Æò±Õ Å¬¸¯ ¼ö
-    private Long adCost; //±¤°íºñ
+    private Long showCount; //ë…¸ì¶œ ìˆ˜
+    private Long clickCount; //í´ë¦­ ìˆ˜
+    private Double avgShowRank; //í‰ê·  ë…¸ì¶œ ìˆœìœ„
+    private Double avgCpc; //í‰ê·  í´ë¦­ ìˆ˜
+    private Long adCost; //ê´‘ê³ ë¹„
 
 
     @Builder

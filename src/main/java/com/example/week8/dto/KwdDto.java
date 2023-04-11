@@ -3,9 +3,11 @@ package com.example.week8.dto;
 import com.example.week8.entity.Kwd;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
+@NoArgsConstructor
 @Setter
 public class KwdDto {
 

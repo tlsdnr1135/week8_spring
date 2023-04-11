@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -73,13 +74,18 @@ public class TaskRequestService {
         if(fileName == null){
             throw new RuntimeException("file 이름이 없어요ㅜㅜㅜ");
         }
+        UrlResource urlResource;
         try {
             originFileName = URLDecoder.decode(fileName + ".csv", "UTF-8");
+//             urlResource =  new UrlResource("file:\\" + "C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/" + originFileName);
+//            URLDecoder.decode(String.valueOf(urlResource),"UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
         System.out.println("오리지널 파일 네임 " + originFileName);
-        return new UrlResource("file:\\" + "Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\java\\com\\example\\week8\\file/" + originFileName);
+        return new UrlResource("file:\\" + "C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/" + originFileName);
+//        return urlResource;
     }
+
 
 }

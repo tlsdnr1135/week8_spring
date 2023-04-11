@@ -35,7 +35,7 @@ public class JobRunner{
     private final EntityManager entityManager;
 
 
-    @Scheduled(fixedRate=30000)
+    @Scheduled(fixedRate=30000) //30초 마다
     public void runJob() throws Exception {
         //Req리스트 가져오기
         List<TaskRequest> taskRequests = taskRequestRepository.findByTaskStatus("REQ");
@@ -56,13 +56,6 @@ public class JobRunner{
                 throw new RuntimeException(e);
             }
         });
-        //각각의 스텝에서 바로바로 COMPLETE를 만들어 줘야한다!!
-
-        //가져온 리스트 들을
-
-        //목록들 잡 돌리기...
-
-        //
     }
 
 }

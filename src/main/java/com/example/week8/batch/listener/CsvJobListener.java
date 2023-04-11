@@ -32,25 +32,15 @@ public class CsvJobListener implements JobExecutionListener {
         //잡 컨텍스트에다 값 넣기.
         System.out.println("afterJobafterJobafterJobafterJobafterJobafterJobafterJobafterJobafterJob");
         System.out.println("잡 익스큐션 ");
-        System.out.println(jobExecution);
         System.out.println("이걸로 체크 " + jobExecution.getStatus());
-        System.out.println(jobExecution.getExecutionContext());
         System.out.println(jobExecution.getExecutionContext().get("taskName"));
-        System.out.println();
 
         TaskRequest byTaskName = taskRequestRepository.findByTaskName(jobExecution.getJobParameters().getString("taskName"));
         if(String.valueOf(jobExecution.getStatus()).equals("FAILED")){
-            System.out.println("들어오긴 하니!???");
-            System.out.println("들어오긴 하니!???");
-            System.out.println("들어오긴 하니!???");
-            System.out.println("들어오긴 하니!???");
-            System.out.println("들어오긴 하니!???");
             byTaskName.changeStatusFAILED();
         }else {
             byTaskName.changeStatusCOMPLETE();
         }
-
-
     }
 
 

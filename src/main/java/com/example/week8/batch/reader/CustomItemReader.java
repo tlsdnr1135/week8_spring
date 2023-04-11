@@ -33,11 +33,11 @@ public class CustomItemReader {
 
         System.out.println("-------------------------------- 여기가 아이템 리더 --------------------------------------------");
         System.out.println("잡 파라미터 : " + taskName);
-
         try{
             FlatFileItemReader<DadReportCsv> build = new FlatFileItemReaderBuilder<DadReportCsv>()
                     .name("DadReportCsv")
-                    .resource(new PathResource("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+".csv"))
+//                    .resource(new PathResource("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+".csv"))
+                    .resource(new PathResource("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/"+taskName+".csv"))
                     .fieldSetMapper(new BeanWrapperFieldSetMapper<>())
                     .targetType(DadReportCsv.class)
                     .linesToSkip(1)

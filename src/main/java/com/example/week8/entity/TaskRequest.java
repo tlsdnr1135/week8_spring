@@ -15,6 +15,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Entity
@@ -58,17 +59,23 @@ public class TaskRequest extends Timestamped{
 
     //배치 시작 후 상태 변경
     public void changeStatusING(){
+        LocalDateTime localDateTime = LocalDateTime.now();
         this.taskStatus="ING";
+        this.taskStartTime = localDateTime;
         System.out.println(id +":"+ taskStatus);
     }
     //배치 시작 후 상태 변경
     public void changeStatusCOMPLETE(){
+        LocalDateTime localDateTime = LocalDateTime.now();
         this.taskStatus="COMPLETE";
+        this.taskEndTime =  localDateTime;
         System.out.println(id +":"+ taskStatus);
     }
     //배치 시작 후 상태 변경
     public void changeStatusFAILED(){
-        this.taskStatus="FAILED";
+        LocalDateTime localDateTime = LocalDateTime.now();
+        this.taskStatus="ERROR";
+        this.taskEndTime =  localDateTime;
         System.out.println(id +":"+ taskStatus);
     }
 

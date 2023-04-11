@@ -50,14 +50,14 @@ public class TaskRequestService {
                 .requestDate(parsedLocalDateTimeNow)
                 .taskStatus("REQ")
                 .taskName(taskName)
-//                .taskPath("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\java\\com\\example\\week8\\file/")
-                .taskPath("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/")
+                .taskPath("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/") //집
+//                .taskPath("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/") //회사
                 .build();
 
         taskRequestRepository.save(taskRequest);
 
-
-        multipartFile.transferTo(new File("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+"."+arr[1]));
+//        multipartFile.transferTo(new File("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+"."+arr[1])); //회사
+        multipartFile.transferTo(new File("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/"+taskName+"."+arr[1])); //집
     }
 
     //TaskRequest 리스트 가져오기
@@ -83,8 +83,9 @@ public class TaskRequestService {
             throw new RuntimeException(e);
         }
         System.out.println("오리지널 파일 네임 " + originFileName);
-        return new UrlResource("file:\\" + "C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/" + originFileName);
-//        return urlResource;
+//        return new UrlResource("file:\\" + "C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/" + originFileName); //회사
+        return new UrlResource("file:\\" + "C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/" + originFileName); //집
+//        return urlResource; 
     }
 
 

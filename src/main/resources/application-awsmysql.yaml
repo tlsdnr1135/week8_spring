@@ -5,6 +5,11 @@ server:
       enabled: true
       force-response: true
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 10KB
+
   main:
     allow-bean-definition-overriding: true
   datasource:

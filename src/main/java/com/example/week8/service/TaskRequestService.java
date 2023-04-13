@@ -12,9 +12,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -37,6 +35,11 @@ public class TaskRequestService {
         System.out.println("작업명 이름 " + taskName);
         System.out.println("스플릿 " + arr[1]);
 
+        System.out.println("이건 어캐나올까");
+
+        InputStream inputStream = multipartFile.getInputStream();
+        System.out.println(inputStream);
+
         //날짜
         String parsedLocalDateTimeNow = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         System.out.println("날짜입니당"+parsedLocalDateTimeNow);
@@ -50,14 +53,16 @@ public class TaskRequestService {
                 .requestDate(parsedLocalDateTimeNow)
                 .taskStatus("REQ")
                 .taskName(taskName)
-                .taskPath("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/") //집
-//                .taskPath("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/") //회사
+//                .taskPath("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/") //집
+                .taskPath("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/") //회사
                 .build();
 
         taskRequestRepository.save(taskRequest);
+        OutputStream outputStream = new FileOutputStream(inputStream.toString());
 
-//        multipartFile.transferTo(new File("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+"."+arr[1])); //회사
-        multipartFile.transferTo(new File("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/"+taskName+"."+arr[1])); //집
+        multipartFile.transferTo(new File("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+"."+arr[1])); //회사
+//        inputStream.transferTo(outputStream); //회사
+//        multipartFile.transferTo(new File("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/"+taskName+"."+arr[1])); //집
     }
 
     //TaskRequest 리스트 가져오기
@@ -74,18 +79,16 @@ public class TaskRequestService {
         if(fileName == null){
             throw new RuntimeException("file 이름이 없어요ㅜㅜㅜ");
         }
+
         UrlResource urlResource;
         try {
             originFileName = URLDecoder.decode(fileName + ".csv", "UTF-8");
-//             urlResource =  new UrlResource("file:\\" + "C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/" + originFileName);
-//            URLDecoder.decode(String.valueOf(urlResource),"UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
         System.out.println("오리지널 파일 네임 " + originFileName);
-//        return new UrlResource("file:\\" + "C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/" + originFileName); //회사
-        return new UrlResource("file:\\" + "C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/" + originFileName); //집
-//        return urlResource; 
+        return new UrlResource("file:\\" + "C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/" + originFileName); //회사
+//        return new UrlResource("file:\\" + "C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/" + originFileName); //집
     }
 
 

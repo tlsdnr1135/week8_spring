@@ -11,6 +11,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +40,7 @@ public class CsvChunkJobConfig {
     @Bean
     public Step step1() {
         return stepBuilderFactory.get("step1")
-                .<DadReportCsv, DadReportCsv>chunk(3)
+                .<DadReportCsv, DadReportCsv>chunk(1)
                 .reader(itemReader)
                 .faultTolerant().skipLimit(0)
                 .skip(NullPointerException.class)

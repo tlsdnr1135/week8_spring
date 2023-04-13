@@ -16,6 +16,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -29,6 +30,9 @@ public class TaskRequestService {
     private final AdminRepository adminRepository;
 
     public void saveFiles(MultipartFile multipartFile, String taskName, String adminId) throws IOException {
+
+
+
         String originFilename = multipartFile.getContentType(); //인사발령문_이요셉_230329.pdf
         String[] arr = originFilename.split("/");
         System.out.println("원본 파일 이름" + originFilename);
@@ -53,15 +57,27 @@ public class TaskRequestService {
                 .requestDate(parsedLocalDateTimeNow)
                 .taskStatus("REQ")
                 .taskName(taskName)
-//                .taskPath("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/") //집
-                .taskPath("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/") //회사
+                .taskPath("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/") //집
+//                .taskPath("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/") //회사
                 .build();
 
         taskRequestRepository.save(taskRequest);
         OutputStream outputStream = new FileOutputStream(inputStream.toString());
 
-        multipartFile.transferTo(new File("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+"."+arr[1])); //회사
+//        multipartFile.transferTo(new File("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+"."+arr[1])); //회사
 //        inputStream.transferTo(outputStream); //회사
+        try {
+            String line;
+            BufferedReader br = new BufferedReader(new InputStreamReader(multipartFile.getInputStream(), "x-windows-949"));
+            while((line=br.readLine()) != null) {
+                System.out.println(line);
+            }
+            br.close();
+            multipartFile.transferTo(new File("C:\\Users\\tlsdn\\OneDrive\\바탕 화면\\4-1/"+taskName+"."+arr[1]));
+//            multipartFile.transferTo(new File("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/"+taskName+"."+arr[1]));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 //        multipartFile.transferTo(new File("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/"+taskName+"."+arr[1])); //집
     }
 
@@ -82,7 +98,7 @@ public class TaskRequestService {
 
         UrlResource urlResource;
         try {
-            originFileName = URLDecoder.decode(fileName + ".csv", "UTF-8");
+            originFileName = URLDecoder.decode(fileName + ".csv", "x-windows-949");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

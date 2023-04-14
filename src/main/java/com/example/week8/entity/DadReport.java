@@ -40,12 +40,13 @@ public class DadReport {
     }
 
     //중복일 경우
-    public void isDadReportDuplication(DadReportCsv item){
+    public DadReport isDadReportDuplication(DadReportCsv item){
         this.showCount += item.getShowCount();
         this.clickCount += item.getClickCount();
         this.adCost += item.getAdCost();
         this.avgShowRank = (double) Math.round( ((this.avgShowRank + item.getAvgShowRank())/2)*10 )/10.0;
         this.avgCpc = (double) Math.round( ((this.avgCpc + item.getAvgCpc())/2)*10 )/10.0;
+        return this;
     }
 
 }

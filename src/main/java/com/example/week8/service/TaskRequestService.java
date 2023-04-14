@@ -16,6 +16,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,20 +30,13 @@ public class TaskRequestService {
     private final TaskRequestRepository taskRequestRepository;
     private final AdminRepository adminRepository;
 
+    //파일 저장
     public void saveFiles(MultipartFile multipartFile, String taskName, String adminId) throws IOException {
-
-
-
-        String originFilename = multipartFile.getContentType(); //인사발령문_이요셉_230329.pdf
+        String originFilename = multipartFile.getContentType();
         String[] arr = originFilename.split("/");
         System.out.println("원본 파일 이름" + originFilename);
         System.out.println("작업명 이름 " + taskName);
         System.out.println("스플릿 " + arr[1]);
-
-        System.out.println("이건 어캐나올까");
-
-        InputStream inputStream = multipartFile.getInputStream();
-        System.out.println(inputStream);
 
         //날짜
         String parsedLocalDateTimeNow = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
@@ -62,23 +56,23 @@ public class TaskRequestService {
                 .build();
 
         taskRequestRepository.save(taskRequest);
-        OutputStream outputStream = new FileOutputStream(inputStream.toString());
 
-//        multipartFile.transferTo(new File("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+"."+arr[1])); //회사
-//        inputStream.transferTo(outputStream); //회사
         try {
             String line;
+            Charset charset = StandardCharsets.UTF_8;
             BufferedReader br = new BufferedReader(new InputStreamReader(multipartFile.getInputStream(), "x-windows-949"));
+            BufferedWriter fw = new BufferedWriter(new FileWriter( "C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+"."+arr[1],charset));
             while((line=br.readLine()) != null) {
                 System.out.println(line);
+                fw.write(line);
+                fw.write("\n");
             }
+            fw.flush();
+            fw.close();
             br.close();
-            multipartFile.transferTo(new File("C:\\Users\\tlsdn\\OneDrive\\바탕 화면\\4-1/"+taskName+"."+arr[1]));
-//            multipartFile.transferTo(new File("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/"+taskName+"."+arr[1]));
         }catch (Exception e) {
             e.printStackTrace();
         }
-//        multipartFile.transferTo(new File("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/"+taskName+"."+arr[1])); //집
     }
 
     //TaskRequest 리스트 가져오기
@@ -96,9 +90,8 @@ public class TaskRequestService {
             throw new RuntimeException("file 이름이 없어요ㅜㅜㅜ");
         }
 
-        UrlResource urlResource;
         try {
-            originFileName = URLDecoder.decode(fileName + ".csv", "x-windows-949");
+            originFileName = URLDecoder.decode(fileName + ".csv", "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

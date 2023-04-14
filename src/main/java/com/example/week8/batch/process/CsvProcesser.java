@@ -33,15 +33,18 @@ public class CsvProcesser implements ItemProcessor<DadReportCsv, DadReport> {
         System.out.println(" -------------------------------------- 여기가 배치 프로세서 --------------------------------------");
         System.out.println("날짜 " + item.getRequestDate());
         System.out.println("직접 광고  Id : " + item.getDadDetId());
+        
+        //널 체크
+        item.checkNull();
 
         //여기서 중복 날짜 아이디
         Optional<DadReport> dadReportOp2 =  dadReportRepository.findByRequestDateAndDadDetId(item.getRequestDate(), item.getDadDetId());
         if(dadReportOp2.isPresent()) {//중복 있으면
             System.out.println("중복 테스트 " + dadReportOp2.get().getRequestDate());
-            dadReportOp2.get().isDadReportDuplication(item);
+            DadReport dadReportDuplication = dadReportOp2.get().isDadReportDuplication(item);
             //리턴을 안해주어도 될듯한데...
 //            return dadReportOp2.get();
-            return null;
+            return dadReportDuplication;
         }else{ //중복 없으면
             //광고주 아이디
             DadDet dadDet = daddetRepository.findById(item.getDadDetId()).get();

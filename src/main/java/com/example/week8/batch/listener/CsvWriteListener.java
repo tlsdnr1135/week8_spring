@@ -29,5 +29,7 @@ public class CsvWriteListener implements ItemWriteListener {
 
     @Override
     public void onWriteError(Exception exception, List items) {
+        System.out.println("여긴 롸이터 에러 익셉션이다!!");
+        System.out.println(exception);
     }
 }

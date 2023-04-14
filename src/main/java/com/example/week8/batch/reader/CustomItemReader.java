@@ -25,7 +25,12 @@ public class CustomItemReader {
     @Bean
     @StepScope
     public FlatFileItemReader<DadReportCsv> read(@Value("#{jobParameters[taskName]}") String taskName){
-        new PathResource("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+".csv");
+        PathResource pathResource = new PathResource("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/" + taskName + ".csv");
+        
+        //여기서 널 체크하기...
+//        pathResource
+
+
 
         System.out.println("-------------------------------- 여기가 아이템 리더 --------------------------------------------");
         System.out.println("잡 파라미터 : " + taskName);
@@ -37,7 +42,7 @@ public class CustomItemReader {
                     .fieldSetMapper(new BeanWrapperFieldSetMapper<>())
                     .targetType(DadReportCsv.class)
                     .linesToSkip(1)
-                    .encoding("x-windows-949")
+                    .encoding("utf-8")
                     .skippedLinesCallback(lineCallbackHandle)
                     .strict(true)
                     .delimited()
@@ -51,11 +56,4 @@ public class CustomItemReader {
 
         return null;
     }
-
-//    public LineCallbackHandler lineCallbackHandler(){
-//            lineCallbackHandle.handleLine("sd");
-//
-//        return LineCallbackHandler;
-//    }
-
 }

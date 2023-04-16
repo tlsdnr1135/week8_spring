@@ -20,7 +20,6 @@ public class CsvJobListener implements JobExecutionListener {
     @Transactional
     public void beforeJob(JobExecution jobExecution) {
         System.out.println("BeforeJobBeforeJobBeforeJobBeforeJobBeforeJobBeforeJobBeforeJobBeforeJob");
-        System.out.println("비포 잡 파라미터 " + jobExecution.getJobParameters());
         System.out.println("비포 잡 파라미터 " + jobExecution.getJobParameters().getString("taskName"));
         TaskRequest byTaskName = taskRequestRepository.findByTaskName(jobExecution.getJobParameters().getString("taskName"));
         byTaskName.changeStatusING();
@@ -31,8 +30,7 @@ public class CsvJobListener implements JobExecutionListener {
     public void afterJob(JobExecution jobExecution) {
         //잡 컨텍스트에다 값 넣기.
         System.out.println("afterJobafterJobafterJobafterJobafterJobafterJobafterJobafterJobafterJob");
-        System.out.println("잡 익스큐션 ");
-        System.out.println("이걸로 체크 " + jobExecution.getStatus());
+        System.out.println("잡 스테이터스 " + jobExecution.getStatus());
         System.out.println(jobExecution.getExecutionContext().get("taskName"));
 
         TaskRequest byTaskName = taskRequestRepository.findByTaskName(jobExecution.getJobParameters().getString("taskName"));

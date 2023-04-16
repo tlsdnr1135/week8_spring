@@ -36,24 +36,24 @@ public class DadReportCsv {
         this.adCost = adCost;
     }
 
+    @Override
+    public String toString() {
+        return "DadReportCsv{" +
+                "requestDate='" + requestDate + '\'' +
+                ", dadDetId=" + dadDetId +
+                ", showCount=" + showCount +
+                ", clickCount=" + clickCount +
+                ", avgShowRank=" + avgShowRank +
+                ", avgCpc=" + avgCpc +
+                ", adCost=" + adCost +
+                '}';
+    }
+
     //널 체크
-    public void checkNull(){
-        if(requestDate == null){
-            throw new NullPointerException("null입니다용..");
-        }else if(dadDetId == null){
-            throw new NullPointerException("null입니다용..");
-        }else if(showCount == null){
-            throw new NullPointerException("null입니다용..");
-        }else if(requestDate == null){
-            throw new NullPointerException("null입니다용..");
-        }else if(clickCount == null){
-            throw new NullPointerException("null입니다용..");
-        }else if(avgShowRank == null){
-            throw new NullPointerException("null입니다용..");
-        }else if(avgCpc == null){
-            throw new NullPointerException("null입니다용..");
-        }else if(adCost == null){
-            throw new NullPointerException("null입니다용..");
+    public void checkNull(String taskName){
+        System.out.println("--------------널 체크-----------------");
+        if(requestDate == null || dadDetId == null || showCount == null || clickCount == null || avgShowRank == null || avgCpc == null || adCost == null){
+            throw new NullPointerException("null 오류 : " + this +" / " + "파일명 : " +taskName);
         }
 
     }

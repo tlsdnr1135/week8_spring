@@ -12,19 +12,30 @@ import java.util.List;
 @Entity
 @IdClass(DadReportPK.class)
 @NoArgsConstructor
+@Table(name = "DAD_DET_REPORT")
 public class DadReport {
 
     @Id
     private String advId; //광고주 ID
     @Id
+    @Column(name = "BASE_DATE")
     private String requestDate; //기준 날짜
     @Id
     private Long dadDetId; //직접광고 상세 ID
 
+    @Column(name = "IMPRESSIONS")
     private Long showCount; //노출 수
+
+    @Column(name = "CLICKS")
     private Long clickCount; //클릭 수
+
+    @Column(name = "AVERAGE_IMPRESSION_RANK")
     private Double avgShowRank; //평균 노출 순위
+
+    @Column(name = "AVERAGE_CLICK_COST")
     private Double avgCpc; //평균 CPC
+
+    @Column(name = "ADVERTISING_COST")
     private Long adCost; //광고비
 
     @Builder

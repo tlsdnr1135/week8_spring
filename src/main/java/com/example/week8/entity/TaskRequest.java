@@ -19,14 +19,16 @@ import java.util.Date;
 
 @Getter
 @Entity
+@Table(name = "TASK_REQ")
 @NoArgsConstructor
 public class TaskRequest extends Timestamped{
 
     @Id
+    @Column(name = "TASK_REQ_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "BASE_DATE")
     private String requestDate; //기준 날짜 - 작업 요청한 날짜
 
     @ManyToOne
@@ -37,9 +39,12 @@ public class TaskRequest extends Timestamped{
 
     @Column(nullable = false,unique = true)
     private String taskName; //태스트 명 - 작업 명
+
+    @Column(name = "TASK_REQ_FILE_PATH")
     private String taskPath; //태스크 요청 파일 경로 - 업로드한 파일 경로
 
     @CreatedDate
+    @Column(name = "TASK_REQ_TIME")
     private LocalDateTime taskRequestTime; //태스크 요청 시간 - 작업 요청한 날짜 및 시간
     private LocalDateTime taskStartTime; //태스크 시작 시간 - null
     private LocalDateTime taskEndTime; //태스크 종료 시간 - null

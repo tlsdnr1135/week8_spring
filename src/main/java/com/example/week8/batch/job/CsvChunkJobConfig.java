@@ -49,10 +49,9 @@ public class CsvChunkJobConfig {
         return stepBuilderFactory.get("step1")
                 .<DadReportCsv, DadReportCsv>chunk(3)
                 .reader(itemReader)
-                .faultTolerant().skipLimit(3)
+                .faultTolerant().skipLimit(100)
                 .skip(Exception.class)
                 .skipPolicy(fileVerificationSkipper)
-//                .noRollback(NullPointerException.class)
                 .processor(csvProcesser)
                 .writer(customItemWriter)
                 .build();

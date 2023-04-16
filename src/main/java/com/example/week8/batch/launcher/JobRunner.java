@@ -43,16 +43,12 @@ public class JobRunner{
             try {
                 s.runJob(csvChunkJobConfig,jobLauncher,s.makeJobParam());
             } catch (JobInstanceAlreadyCompleteException e) {
-                System.out.println("익셉션");
                 throw new RuntimeException(e);
             } catch (JobExecutionAlreadyRunningException e) {
-                System.out.println("익셉션");
                 throw new RuntimeException(e);
             } catch (JobParametersInvalidException e) {
-                System.out.println("익셉션");
                 throw new RuntimeException(e);
             } catch (JobRestartException e) {
-                System.out.println("익셉션");
                 throw new RuntimeException(e);
             }
         });

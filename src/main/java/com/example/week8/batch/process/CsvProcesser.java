@@ -18,9 +18,11 @@ import java.util.Optional;
 //@StepScope
 @Configuration
 @RequiredArgsConstructor
+@StepScope
 public class CsvProcesser implements ItemProcessor<DadReportCsv, DadReport> {
 
-
+    @Value("#{jobParameters[taskName]}")
+    private String taskName;
 //    @Value("#{jobParameters[date]}")
 //    private String date;
     private final DadReportRepository dadReportRepository;
@@ -29,13 +31,14 @@ public class CsvProcesser implements ItemProcessor<DadReportCsv, DadReport> {
 
     @Override
     @Transactional
+
     public DadReport process( DadReportCsv item) throws Exception {
         System.out.println(" -------------------------------------- 여기가 배치 프로세서 --------------------------------------");
         System.out.println("날짜 " + item.getRequestDate());
         System.out.println("직접 광고  Id : " + item.getDadDetId());
         
         //널 체크
-        item.checkNull();
+        item.checkNull(taskName);
 
         //여기서 중복 날짜 아이디
         Optional<DadReport> dadReportOp2 =  dadReportRepository.findByRequestDateAndDadDetId(item.getRequestDate(), item.getDadDetId());
@@ -47,7 +50,9 @@ public class CsvProcesser implements ItemProcessor<DadReportCsv, DadReport> {
             return dadReportDuplication;
         }else{ //중복 없으면
             //광고주 아이디
-            DadDet dadDet = daddetRepository.findById(item.getDadDetId()).get();
+            DadDet dadDet = daddetRepository.findById(item.getDadDetId()).orElseThrow(
+                    ()-> new IllegalArgumentException("DadDetID 없음 / " + "파일명 : " +taskName)
+            );
             System.out.println("광고주 아이디 : "  +  dadDet.getAd().getAdv().getName());
 
             DadReport dadReport = DadReport.builder()

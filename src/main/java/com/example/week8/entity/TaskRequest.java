@@ -84,6 +84,12 @@ public class TaskRequest extends Timestamped{
         System.out.println(id +":"+ taskStatus);
     }
 
+    /*
+    1. 파일을 저장할 때 path에다가 uuid만들기 파일명 까지 저장.
+    2. 파일명으로 찾는다.
+    3. 잡 파라미터는 uuid로 준다.
+     */
+
     //파라미터 만들기
     public JobParameters makeJobParam(){
         return new JobParametersBuilder().addString("taskName", String.valueOf(this.taskName)).toJobParameters();

@@ -1,13 +1,16 @@
 package com.example.week8.dto;
 
 import com.example.week8.entity.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class AdDto {
 
     private Adv adv;
@@ -15,7 +18,14 @@ public class AdDto {
     private Item item;
     private List<KwdDto> kwd;
 
-//    private CnrReq cnrReq;
+    @Builder
+    public AdDto(Adv adv, Agroup agroup, Item item, List<KwdDto> kwd) {
+        this.adv = adv;
+        this.agroup = agroup;
+        this.item = item;
+        this.kwd = kwd;
+    }
+    //    private CnrReq cnrReq;
 
 
 

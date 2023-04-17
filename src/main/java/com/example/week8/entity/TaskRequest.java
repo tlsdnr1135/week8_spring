@@ -92,7 +92,7 @@ public class TaskRequest extends Timestamped{
 
     //파라미터 만들기
     public JobParameters makeJobParam(){
-        return new JobParametersBuilder().addString("taskName", String.valueOf(this.taskName)).toJobParameters();
+        return new JobParametersBuilder().addString("taskPath", String.valueOf(this.taskPath)).toJobParameters();
     }
     
     //잡 실행 시키기

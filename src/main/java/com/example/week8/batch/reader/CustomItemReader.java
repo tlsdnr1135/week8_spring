@@ -18,27 +18,24 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CustomItemReader {
 
-//    @Value("#{jobParameters[taskName]}")
-//    private String taskName;
+
     private final CustomLineCallbackHandle lineCallbackHandle;
 
     @Bean
     @StepScope
-    public FlatFileItemReader<DadReportCsv> read(@Value("#{jobParameters[taskName]}") String taskName){
-        PathResource pathResource = new PathResource("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/" + taskName + ".csv");
+    public FlatFileItemReader<DadReportCsv> read(@Value("#{jobParameters[taskPath]}") String taskPath){
+        PathResource pathResource = new PathResource(taskPath);
         
         //여기서 널 체크하기...
 //        pathResource
 
-
-
         System.out.println("-------------------------------- 여기가 아이템 리더 --------------------------------------------");
-        System.out.println("잡 파라미터 : " + taskName);
+        System.out.println("잡 파라미터 : " + taskPath);
         try{
             FlatFileItemReader<DadReportCsv> build = new FlatFileItemReaderBuilder<DadReportCsv>()
                     .name("DadReportCsv")
-//                    .resource(new PathResource("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+".csv"))
-                    .resource(new PathResource("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/"+taskName+".csv"))
+                    .resource(new PathResource(taskPath))
+//                    .resource(new PathResource("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/"+taskName+".csv"))
                     .fieldSetMapper(new BeanWrapperFieldSetMapper<>())
                     .targetType(DadReportCsv.class)
                     .linesToSkip(1)

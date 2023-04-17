@@ -1,4 +1,4 @@
-spring:
-  profiles:
-    active:
-      - awsmysql
+#spring:
+#  profiles:
+#    active:
+#      - awsmysql

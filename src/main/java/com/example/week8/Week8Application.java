@@ -27,17 +27,17 @@ public class Week8Application {
 //    Hibernate5Module hibernate5Module(){
 //        return new Hibernate5Module();
 //    }
-    @Bean
-    public HttpMessageConverter<String> responseBodyConverter() {
-        return new StringHttpMessageConverter(Charset.forName("UTF-8"));
-    }
+//    @Bean
+//    public HttpMessageConverter<String> responseBodyConverter() {
+//        return new StringHttpMessageConverter(Charset.forName("UTF-8"));
+//    }
 
-    @Bean
-    public Filter characterEncodingFilter() {
-        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-        characterEncodingFilter.setEncoding("UTF-8");
-        characterEncodingFilter.setForceEncoding(true);
-        return (Filter) characterEncodingFilter;
-    }
+//    @Bean
+//    public Filter characterEncodingFilter() {
+//        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+//        characterEncodingFilter.setEncoding("UTF-8");
+//        characterEncodingFilter.setForceEncoding(true);
+//        return (Filter) characterEncodingFilter;
+//    }
 
 }

@@ -4,7 +4,6 @@ buildscript {
     }
 }
 
-
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.8'
@@ -31,7 +30,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-batch'
 
 
-    
     //querydsl 추가
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
@@ -39,12 +37,14 @@ dependencies {
     //MapStruct
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
     implementation 'org.mapstruct:mapstruct:1.4.1.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.1.Final'
 
 //    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate5'
 
-    implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.5'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     implementation group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.10.RELEASE'
     implementation group: 'com.auth0', name: 'java-jwt', version: '3.19.2'
@@ -55,12 +55,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'com.h2database:h2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
 }
-
-
 
 //querydsl 추가 시작
 def querydslDir = "$buildDir/generated/querydsl"

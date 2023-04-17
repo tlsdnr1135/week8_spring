@@ -30,6 +30,7 @@ public class AdService {
     private final DaddetbidRepository daddetbidRepository;
     private final CnrReqRepository cnrReqRepository;
 
+    //배치말고 여기
     @Transactional
     public Object saveAd(AdDto adDto){
         System.out.println(adDto.getItem().getId());

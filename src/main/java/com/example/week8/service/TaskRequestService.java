@@ -45,14 +45,19 @@ public class TaskRequestService {
         //프록시 객체
         Admin admin = adminRepository.getReferenceById(adminId);
 
+        //uuid만들기
+        String[] uuids = UUID.randomUUID().toString().split("-");
+        String saveFileName = uuids[0] + "-" + taskName;
+        System.out.println("uuid : " + saveFileName);
+
         //엔티티 만들기
         TaskRequest taskRequest = TaskRequest.builder()
                 .admin(admin)
                 .requestDate(parsedLocalDateTimeNow)
                 .taskStatus("REQ")
                 .taskName(taskName)
-                .taskPath("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/") //집
-//                .taskPath("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/") //회사
+//                .taskPath("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/") //집
+                .taskPath("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+saveFileName+"."+arr[1]) //회사
                 .build();
 
         taskRequestRepository.save(taskRequest);
@@ -61,8 +66,8 @@ public class TaskRequestService {
             String line;
             Charset charset = StandardCharsets.UTF_8;
             BufferedReader br = new BufferedReader(new InputStreamReader(multipartFile.getInputStream(), "x-windows-949"));
-//            BufferedWriter fw = new BufferedWriter(new FileWriter( "C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+taskName+"."+arr[1],charset)); //회사
-            BufferedWriter fw = new BufferedWriter(new FileWriter( "C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/"+taskName+"."+arr[1],charset)); //회사
+            BufferedWriter fw = new BufferedWriter(new FileWriter( "C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+saveFileName+"."+arr[1],charset)); //회사
+//            BufferedWriter fw = new BufferedWriter(new FileWriter( "C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/"+taskName+"."+arr[1],charset)); //회사
 
             while((line=br.readLine()) != null) {
                 System.out.println(line);
@@ -97,9 +102,14 @@ public class TaskRequestService {
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
+
+        //파일명으로 패스 찾고...
+        TaskRequest taskRequest = taskRequestRepository.findByTaskName(fileName);
+        System.out.println("파일 패스 : " + taskRequest.getTaskPath());
+
         System.out.println("오리지널 파일 네임 " + originFileName);
-//        return new UrlResource("file:\\" + "C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/" + originFileName); //회사
-        return new UrlResource("file:\\" + "C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/" + originFileName); //집
+        return new UrlResource("file:\\" + taskRequest.getTaskPath()); //회사
+//        return new UrlResource("file:\\" + "C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/" + originFileName); //집
     }
 
 

@@ -26,6 +26,7 @@ repositories {
 }
 
 dependencies {
+
     //배치
     implementation 'org.springframework.boot:spring-boot-starter-batch'
 
@@ -58,6 +59,8 @@ dependencies {
     implementation 'com.h2database:h2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//    testCompile("org.junit.jupiter:junit-jupiter-params:5.9.2")
+
 }
 
 //querydsl 추가 시작

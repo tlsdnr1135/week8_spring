@@ -55,6 +55,9 @@ public class DadDet extends Timestamped{
         this.regTime = regTime;
     }
 
+    public void setCnrReq(CnrReq cnrReq){
+     this.cnrReq = cnrReq;
+    }
     public void updateConfirmReject(){
         this.dadCnrStatus="APPROVAL";
     }

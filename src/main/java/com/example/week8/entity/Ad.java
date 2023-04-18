@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Entity(name = "AD")
+@Setter
 public class Ad extends Timestamped{
 
     @Id

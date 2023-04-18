@@ -23,14 +23,6 @@ public class AccountService {
     public String accountJoin(AccountReqDto accountReqDto){
         System.out.println("Controller accountService안");
 
-
-//        System.out.println("adv getName : " +adv.getName());
-//        System.out.println("adv getPassword : " +adv.getPassword());
-//        System.out.println("adv getRole : " +adv.getRole());
-//        System.out.println("adv getRole : " +adv.getRole().getClass());
-//        System.out.println("adv getAdIngActYn : " +adv.getAdIngActYn());
-//        System.out.println("adv getBalance : " +adv.getBalance());
-
         String member;
         if(accountReqDto.getRole().equals("ROLE_ADV")){ //관리자광고주
             System.out.println("광고주 if문 안");

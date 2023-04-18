@@ -69,12 +69,6 @@ public class AdService {
 
         //1. 전체 객체를 넣고 출력
         agroup.getAd().add(ad); //현재 내가 직접 만든 객체
-
-        //2. 가짜 객체를 넣고 출력
-//        Ad ad1 = Ad.builder()
-//                .id(99L)
-//                .build();
-//        findAgroup.getAd().add(ad1);
         adRepository.save(ad);
 
 
@@ -188,7 +182,7 @@ public class AdService {
             }
         }
         System.out.println("------------------------------------------------------------");
-        return null;
+        return "성공";
     }
 
     public Object findAll() {

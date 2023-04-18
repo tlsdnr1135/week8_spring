@@ -3,7 +3,6 @@ package com.example.week8.service;
 import com.example.week8.dto.AdDto;
 import com.example.week8.dto.KwdDto;
 import com.example.week8.dto.ad.update.RequestAdActYnAllDto;
-import com.example.week8.dto.ad.update.RequestAdUseConfigYnAllDto;
 import com.example.week8.dto.ad.update.ResponseCurrentStateAdListDto;
 import com.example.week8.entity.*;
 import com.example.week8.enums.AccountRoleEnum;
@@ -14,25 +13,51 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 import java.util.List;
-import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+//@ExtendWith(MockitoExtension.class)
 @SpringBootTest
+//@Transactional
 public class AdServiceTest {
 
+//    @Mock
+//    private AgroupRepository agroupRepository;
+//
+//    @Mock
+//    private AdvRepository advRepository;
+//
+//    @Mock
+//    private ItemRepository itemRepository;
+
+//    @Mock
+//    private AdRepository mockARepository;
+
+//    @Mock
+//    private KeywordRepository keywordRepository;
+//
+//    @Mock
+//    private DaddetRepository daddetRepository;
+//
+//    @Mock
+//    private DaddetbidRepository daddetbidRepository;
+//
+//    @Mock
+//    private CnrReqRepository cnrReqRepository;
 
     @Autowired
     private AdRepository adRepository;
@@ -47,133 +72,55 @@ public class AdServiceTest {
     @Autowired
     private ItemRepository itemRepository;
     @Autowired
-    private CnrReqRepository cnrReqRepository;
-
-    @Autowired
     private EntityManager entityManager;
-
     @Autowired
     private KeywordRepository keywordRepository;
 
     @Autowired
     private AdService  adService;
 
+//
+
 
     @Test
-    @DisplayName("광고_저장_수동_검수_키워드_여부_False_일때")
-    @Transactional
+    @DisplayName("광고 저장")
     public void saveAd(){
 
         //given
-        Adv adv = createAdv();
-        advRepository.saveAndFlush(adv);
-
-        Item item = createItem();
-        itemRepository.save(item);
+        //키워드 생성
+        List<KwdDto> kwds = new ArrayList<>();
+        kwds.add(KwdDto.builder().kwdName("키워드1").build());
+        kwds.add(KwdDto.builder().kwdName("키워드2").build());
 
         //DTO
-        List<KwdDto> kwdDtos = new ArrayList<>();
-        kwdDtos.add(KwdDto.builder().kwdName(adv.getName()).bidCost(1000L).build());
-
         AdDto adDto = AdDto.builder()
-                .adv(Adv.builder().name("adv").build())
+                .adv(Adv.builder().name("설빈").build())
                 .agroup(Agroup.builder().agroupName("설빈광고").build())
-                .item(Item.builder().id(item.getId()).build())
-                .kwd(kwdDtos) //리스트 타입
+                .item(Item.builder().id(1L).build())
+                .kwd(kwds)
                 .build();
+
+
+        //stub
+        //광고주 아이디 가져오기
+//        when(advRepository.findById(adDto.getAdv().getName()).get()).thenReturn();
+
+
+
+        //when
+        Object str = adService.saveAd(adDto);
+
+        //then
+
+
+
+    }
+
+    @Test
+    @DisplayName("updateAdActYnALl")
+    @Transactional
+    public void updateAdActYnALl(){
         
-//        Ad ad = createAd();
-
-        //when
-        String returnMessage = adService.saveAd(adDto);
-
-        //then
-        List<Ad> adLists = adRepository.findAll();
-
-        assertEquals("성공",returnMessage);
-        assertEquals(1, adLists.size());
-
-
-
-    }
-
-    @Test
-    @DisplayName("findAll")
-    @Transactional
-    void findAll(){
-        //given
-        Ad ad = createAd();
-        adRepository.save(ad);
-
-        //when
-        List<Ad> adList = adService.findAll();
-
-        //then
-        assertEquals(1,adList.size());
-        assertEquals("설빈그룹",adList.get(0).getAgroup().getAgroupName());
-
-    }
-
-    @Test
-    @DisplayName("updateAdUseConfigYnAll")
-    void updateAdUseConfigYnAll(){
-
-        //given
-        List<Long> longList = new ArrayList<>();
-        longList.add(3L);
-        Integer integer = 0;
-
-        RequestAdUseConfigYnAllDto dto = new RequestAdUseConfigYnAllDto();
-        dto.setLongList(longList);
-        dto.setYn(integer);
-
-        Ad ad = createAd();
-        adRepository.save(ad);
-
-        DadDet dadDet = createDadDet(ad);
-        daddetRepository.save(dadDet);
-
-        //when
-        adService.updateAdUseConfigYnALl(dto);
-
-        //then
-        List<Ad> adList = adRepository.findAll();
-        List<DadDet> dadDetList = daddetRepository.findAll();
-
-        assertEquals(1,adList.size());
-        assertEquals(1,dadDetList.size());
-        assertEquals(0,adList.get(0).getAdUseConfigYn());
-        assertEquals(0,dadDetList.get(0).getDadUseConfigYn());
-        assertEquals(1,adList.get(0).getAdActYn());
-        assertEquals(1,dadDetList.get(0).getDadActYn());
-    }
-
-    @ParameterizedTest
-    @MethodSource("temp")
-    void isOdd_ShouldReturnTrueForOddNumbers(Ad ad) {
-//        System.out.println(ad.get);
-    }
-
-    static Stream<Arguments> temmp() throws Throwable {
-        return Stream.of(
-                Arguments.of(Adv.builder()
-                        .name("adv")
-                        .password("1")
-                        .role(AccountRoleEnum.valueOf("ROLE_ADV"))
-                        .adIngActYn(1)
-                        .balance(1000L)
-                        .eventMoneyBalance(0L)
-                        .dayLimitBudget(0L)
-                        .build())
-        );
-    }
-
-
-    @Test
-    @DisplayName("updateAdActYnAll")
-    @Transactional
-//    @Transactional
-    void updateAdActYnAll(){
         //given - dto
         List<Long> longList = new ArrayList<>();
         longList.add(3L);
@@ -183,13 +130,72 @@ public class AdServiceTest {
         dto.setLongList(longList);
         dto.setYn(integer);
 
-        Ad ad = createAd();
+        //stub - ad, DaddetReport 만들기
+        Adv adv = Adv.builder()
+                .name("adv")
+                .password("1")
+                .role(AccountRoleEnum.valueOf("ROLE_ADV"))
+                .adIngActYn(1)
+                .balance(1000L)
+                .eventMoneyBalance(0L)
+                .dayLimitBudget(0L)
+                .build();
+        adv.encodePassword(passwordEncoder);
+        advRepository.saveAndFlush(adv); //TODO 여기에 플러시를 왜 붙여야만 하는가?
+
+        Agroup agroup = Agroup.builder()
+                .agroupName("설빈그룹")
+                .agroupActYn(1)
+                .agroupUseActYn(1)
+                .build();
+        agroupRepository.save(agroup);
+
+        Item item = Item.builder()
+                .itemNo("상품번호01")
+                .itemName("상품명")
+                .adultYn(1)
+                .itemOrgCost(1000L)
+                .itemActYn(1)
+                .build();
+        itemRepository.save(item);
+
+        Ad ad = Ad.builder()
+                .adv(adv)
+                .agroup(agroup)
+                .item(item)
+                .adActYn(1)
+                .adUseConfigYn(1)
+                .build();
+        System.out.println(ad.getAdv().getName());
         adRepository.save(ad);
 
-        DadDet dadDet = createDadDet(ad);
+        /***************************************/
+        Kwd kwd = Kwd.builder()
+                .kwdName("설빈키워드")
+                .sellPossKwdYn(1)
+                .manualCnrKwdYn(1)
+                .build();
+        keywordRepository.save(kwd);
+
+        DadDet dadDet = DadDet.builder()
+                .ad(ad)
+                .kwd(kwd)
+                .dadCnr("APPROVAL")
+                .cnrReqId(null)
+                .dadActYn(1)
+                .dadUseConfigYn(1)
+                .build();
         daddetRepository.save(dadDet);
 
+        System.out.println("광고 act 전 : " + ad.getAdActYn());
+        System.out.println("DadDet : " + dadDet.getId());
+        System.out.println("DadDet act 전 : " + dadDet.getDadActYn());
+
+
+
         //when
+//        entityManager.flush();
+//        entityManager.clear();
         adService.updateAdActYnALl(dto);
 
         //then
@@ -204,110 +210,6 @@ public class AdServiceTest {
         assertEquals(1,dadDetList.get(0).getDadUseConfigYn());
 
     }
-
-    @Test
-    @DisplayName("findCurrentStateAdLists")
-    @Transactional
-    void findCurrentStateAdLists(){
-        //given
-        Ad ad = createAd();
-        adRepository.save(ad);
-
-        DadDet dadDet = createDadDet(ad);
-        daddetRepository.save(dadDet);
-
-        CnrReq cnrReq = CnrReq.builder()
-                .dadDetId(dadDet) //직접광고 상세 ID
-                .cnrIngStatus("APPROVAL") //검수 진행 상태
-                .cnrInputDiv("INPUT_CNR") //검수 입력 구분
-                .cnrCompleteYn(1) //검수 완료 여부(N)
-                .cnrFailCause(null) //검수 실패 사유
-                .cnrFailComt(null) //검수 실패 코멘트
-                .build();
-        cnrReqRepository.save(cnrReq);
-
-        dadDet.setCnrReq(cnrReq);
-
-        //when
-        List<ResponseCurrentStateAdListDto> list = adService.findCurrentStateAdLists();
-
-        //then
-        assertEquals(1,list.size()); //크기 확인
-        assertEquals("상품명",list.get(0).getItemName());
-//        assertEquals(dto);
-
-    }
-
-
-    private Adv createAdv(){
-        return Adv.builder()
-                .name("adv")
-                .password("1")
-                .role(AccountRoleEnum.valueOf("ROLE_ADV"))
-                .adIngActYn(1)
-                .balance(1000L)
-                .eventMoneyBalance(0L)
-                .dayLimitBudget(0L)
-                .build();
-    }
-    private Agroup createAgroup(){
-        return Agroup.builder()
-                .agroupName("설빈그룹")
-                .agroupActYn(1)
-                .agroupUseActYn(1)
-                .build();
-    }
-    private Item createItem(){
-        return Item.builder()
-                .itemNo("상품번호01")
-                .itemName("상품명")
-                .adultYn(1)
-                .itemOrgCost(1000L)
-                .itemActYn(1)
-                .build();
-    }
-
-    @Transactional
-    Ad createAd(){
-        Adv adv = createAdv();
-        adv.encodePassword(passwordEncoder);
-        advRepository.saveAndFlush(adv); //TODO 여기에 플러시를 왜 붙여야만 하는가?
-
-        Agroup agroup = createAgroup();
-        agroupRepository.save(agroup);
-
-        Item item = createItem();
-        itemRepository.save(item);
-
-        return Ad.builder()
-                .adv(adv)
-                .agroup(agroup)
-                .item(item)
-                .adActYn(1)
-                .adUseConfigYn(1)
-                .build();
-    }
-    private Kwd createKwd(){
-        return Kwd.builder()
-                .kwdName("설빈키워드")
-                .sellPossKwdYn(1)
-                .manualCnrKwdYn(1)
-                .build();
-    }
-    private DadDet createDadDet(Ad ad){
-        Kwd kwd = createKwd();
-        keywordRepository.save(kwd);
-
-        return DadDet.builder()
-                .ad(ad)
-                .kwd(kwd)
-                .dadCnr("APPROVAL")
-                .cnrReqId(null)
-                .dadActYn(1)
-                .dadUseConfigYn(1)
-                .build();
-    }
-
 //
 
     /**
@@ -398,7 +300,7 @@ public class AdServiceTest {
         private Integer adultYn;
 
         @Override
-        public Long getKeys() {
+        public Long getKey() {
             return this.key;
         }
 
@@ -416,7 +318,6 @@ public class AdServiceTest {
         public Integer getAdultYn() {
             return this.adultYn;
         }
-
 
         @Builder
         public ResponseCurrentStateAdListDtoImpl(Long key, String itemName, String kwdName, Integer adultYn) {

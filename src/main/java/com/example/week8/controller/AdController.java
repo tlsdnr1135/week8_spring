@@ -4,7 +4,6 @@ import com.example.week8.dto.AdDto;
 import com.example.week8.dto.ad.update.RequestAdActYnAllDto;
 import com.example.week8.dto.ad.update.RequestAdUseConfigYnAllDto;
 import com.example.week8.dto.ad.update.ResponseCurrentStateAdListDto;
-import com.example.week8.entity.Ad;
 import com.example.week8.service.AdService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ public class AdController {
     private final AdService adService;
 
     @GetMapping("/api/ad/find")
-    public ResponseEntity<List<Ad>> findAll(){
+    public ResponseEntity<Object> findAll(){
         return ResponseEntity.ok().body(adService.findAll());
     }
 
@@ -30,7 +29,7 @@ public class AdController {
     }
 
     @PostMapping("/api/ad/save")
-    public ResponseEntity<String> saveAd(@RequestBody AdDto adDto){
+    public ResponseEntity<Object> saveAd(@RequestBody AdDto adDto){
         System.out.println("광고 저장 시작");
         return ResponseEntity.ok().body(adService.saveAd(adDto));
     }

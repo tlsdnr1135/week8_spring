@@ -18,7 +18,7 @@ public interface AdRepository extends JpaRepository<Ad, Long> {
 
     //adUseConfigYn일괄 변경
     @Transactional
-    @Modifying(clearAutomatically = true)
+    @Modifying
     @Query(value = "update ad a set a.ad_use_config_yn = :yn where a.ad_id in :list",nativeQuery = true)
     void updateAdUseConfigYnAll(@Param("list")List<Long> longList, @Param("yn")Integer yn);
 
@@ -30,8 +30,7 @@ public interface AdRepository extends JpaRepository<Ad, Long> {
 
 
     //광고 현황 테이블
-
-    @Query(value = "select d.dad_det_id as keys, i.item_name as itemName, k.kwd_name as kwdName, i.adult_yn as adultYn from ad a \n" +
+    @Query(value = "select d.dad_det_id as 'key', i.item_name as itemName, k.kwd_name as kwdName, i.adult_yn as adultYn from ad a \n" +
             "    inner join dad_det d on a.ad_id = d.ad_id and d.dad_act_yn=1 and d.dad_use_config_yn=1 \n" +
             "    inner join cnr_req c on c.cnr_req_id = d.cnr_req_id and c.cnr_ing_status = 'APPROVAL' \n" +
             "    inner join agroup g on a.agroup_id = g.agroup_id and g.agroup_use_act_yn = 1 and g.agroup_act_yn = 1 \n" +

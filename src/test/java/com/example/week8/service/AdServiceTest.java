@@ -12,6 +12,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -58,11 +60,19 @@ public class AdServiceTest {
     @Autowired
     private AdService  adService;
 
+//    @BeforeEach
+//    void before(){
+//        System.out.println("키워드 크기" + keywordRepository.findAll().size());
+//        System.out.println("광고 크기" + adRepository.findAll().size());
+////        advRepository.deleteAll();
+////        adRepository.deleteAll();
+////        keywordRepository.deleteAll();
+//    }
 
     @Test
-    @DisplayName("광고_저장_수동_검수_키워드_여부_False_일때")
+    @DisplayName("saveAd_키워드_없을_때")
     @Transactional
-    public void saveAd(){
+    public void saveAd_manualCnrKwdYn_False(){
 
         //given
         Adv adv = createAdv();
@@ -73,31 +83,118 @@ public class AdServiceTest {
 
         //DTO
         List<KwdDto> kwdDtos = new ArrayList<>();
-        kwdDtos.add(KwdDto.builder().kwdName(adv.getName()).bidCost(1000L).build());
+        kwdDtos.add(KwdDto.builder().kwdName("키워드 명").bidCost(1000L).build()); //자동으로 수동검사여부 0 이 디폴트값
 
         AdDto adDto = AdDto.builder()
-                .adv(Adv.builder().name("adv").build())
+                .adv(Adv.builder().name(adv.getName()).build())
                 .agroup(Agroup.builder().agroupName("설빈광고").build())
                 .item(Item.builder().id(item.getId()).build())
                 .kwd(kwdDtos) //리스트 타입
                 .build();
         
-//        Ad ad = createAd();
 
         //when
         String returnMessage = adService.saveAd(adDto);
 
         //then
         List<Ad> adLists = adRepository.findAll();
+        List<Kwd> kwdLists = keywordRepository.findAll();
 
         assertEquals("성공",returnMessage);
         assertEquals(1, adLists.size());
+        assertEquals("키워드 명", kwdLists.get(0).getKwdName());
+        assertEquals(0, kwdLists.get(0).getManualCnrKwdYn());
 
+    }
+    @Test
+    @DisplayName("saveAd_키워드_있음_키워드 수동 검수 여부_True")
+    @Transactional
+    public void saveAd_manualCnrKwdYn_True(){
+
+        //given
+        Adv adv = createAdv();
+        advRepository.saveAndFlush(adv);
+
+        Item item = createItem();
+        itemRepository.save(item);
+
+        Kwd kwd = createKwd();
+        keywordRepository.saveAndFlush(kwd);
+
+        //총 사이즈가 1개가 맞음 - 디티오 크기 만큼
+
+        //DTO
+        List<KwdDto> kwdDtos = new ArrayList<>();
+        kwdDtos.add(KwdDto.builder().kwdName("키워드 명").bidCost(1000L).build());
+
+        AdDto adDto = AdDto.builder()
+                .adv(Adv.builder().name(adv.getName()).build())
+                .agroup(Agroup.builder().agroupName("설빈광고").build())
+                .item(Item.builder().id(item.getId()).build())
+                .kwd(kwdDtos) //리스트 타입
+                .build();
+
+        //when
+        String returnMessage = adService.saveAd(adDto);
+
+
+        //then
+        List<Ad> adLists = adRepository.findAll();
+        List<Kwd> kwdLists = keywordRepository.findAll();
+
+        assertEquals("성공",returnMessage);
+        assertEquals(1, adLists.size());
+        assertEquals(2, kwdLists.size());
+        assertEquals("설빈키워드", kwdLists.get(0).getKwdName());
+        assertEquals(1, kwdLists.get(0).getManualCnrKwdYn());
+        assertEquals("키워드 명", kwdLists.get(1).getKwdName());
+        assertEquals(0, kwdLists.get(1).getManualCnrKwdYn());
 
 
     }
+    @Test
+    @DisplayName("saveAd_키워드_판매가능여부_False_예외")
+    @Transactional
+    public void saveAd_Throw(){
 
-//sdsdds새롭게 커밋하자
+        //given
+        Adv adv = createAdv();
+        advRepository.saveAndFlush(adv);
+
+        Item item = createItem();
+        itemRepository.save(item);
+
+        Kwd kwd = Kwd.builder()
+                .kwdName("키워드 네임")
+                .manualCnrKwdYn(0)
+                .sellPossKwdYn(0)
+                .build();
+        keywordRepository.save(kwd);
+
+        //총 사이즈가 1개가 맞음 - 디티오 크기 만큼
+
+        //DTO
+        List<KwdDto> kwdDtos = new ArrayList<>();
+        kwdDtos.add(KwdDto.builder().kwdName("키워드 네임").bidCost(1000L).build());
+
+        AdDto adDto = AdDto.builder()
+                .adv(Adv.builder().name(adv.getName()).build())
+                .agroup(Agroup.builder().agroupName("설빈광고").build())
+                .item(Item.builder().id(item.getId()).build())
+                .kwd(kwdDtos) //리스트 타입
+                .build();
+
+        //when
+        Assertions.assertThrows(RuntimeException.class, () ->{
+            adService.saveAd(adDto);
+        });
+
+
+        //then
+
+    }
+
+
     @Test
     @DisplayName("findAll")
     @Transactional
@@ -121,7 +218,7 @@ public class AdServiceTest {
 
         //given
         List<Long> longList = new ArrayList<>();
-        longList.add(3L);
+//        longList.add(3L);
         Integer integer = 0;
 
         RequestAdUseConfigYnAllDto dto = new RequestAdUseConfigYnAllDto();
@@ -130,6 +227,7 @@ public class AdServiceTest {
 
         Ad ad = createAd();
         adRepository.save(ad);
+        longList.add(ad.getId());
 
         DadDet dadDet = createDadDet(ad);
         daddetRepository.save(dadDet);
@@ -149,35 +247,15 @@ public class AdServiceTest {
         assertEquals(1,dadDetList.get(0).getDadActYn());
     }
 
-    @ParameterizedTest
-    @MethodSource("temp")
-    void isOdd_ShouldReturnTrueForOddNumbers(Ad ad) {
-//        System.out.println(ad.get);
-    }
 
-    static Stream<Arguments> temmp() throws Throwable {
-        return Stream.of(
-                Arguments.of(Adv.builder()
-                        .name("adv")
-                        .password("1")
-                        .role(AccountRoleEnum.valueOf("ROLE_ADV"))
-                        .adIngActYn(1)
-                        .balance(1000L)
-                        .eventMoneyBalance(0L)
-                        .dayLimitBudget(0L)
-                        .build())
-        );
-    }
 
 
     @Test
     @DisplayName("updateAdActYnAll")
     @Transactional
-//    @Transactional
     void updateAdActYnAll(){
-        //given - dto
+        //given
         List<Long> longList = new ArrayList<>();
-        longList.add(3L);
         Integer integer = 0;
 
         RequestAdActYnAllDto dto = new RequestAdActYnAllDto();
@@ -186,6 +264,7 @@ public class AdServiceTest {
 
         Ad ad = createAd();
         adRepository.save(ad);
+        longList.add(ad.getId());
 
         DadDet dadDet = createDadDet(ad);
         daddetRepository.save(dadDet);
@@ -199,7 +278,7 @@ public class AdServiceTest {
 
         assertEquals(1,adList.size());
         assertEquals(1,dadDetList.size());
-        assertEquals(0,adList.get(0).getAdActYn());
+        assertEquals(0,adList.get(0).getAdActYn()); //
         assertEquals(0,adList.get(0).getAdUseConfigYn());
         assertEquals(0,dadDetList.get(0).getDadActYn());
         assertEquals(1,dadDetList.get(0).getDadUseConfigYn());
@@ -268,7 +347,7 @@ public class AdServiceTest {
                 .build();
     }
 
-    @Transactional
+//    @Transactional
     Ad createAd(){
         Adv adv = createAdv();
         adv.encodePassword(passwordEncoder);
@@ -399,7 +478,7 @@ public class AdServiceTest {
         private Integer adultYn;
 
         @Override
-        public Long getKeys() {
+        public Long getKey() {
             return this.key;
         }
 

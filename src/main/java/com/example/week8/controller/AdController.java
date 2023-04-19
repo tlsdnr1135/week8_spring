@@ -18,6 +18,8 @@ public class AdController {
 
     private final AdService adService;
 
+    //find 같은 거 빼기.
+    //동사x
     @GetMapping("/api/ad/find")
     public ResponseEntity<List<Ad>> findAll(){
         return ResponseEntity.ok().body(adService.findAll());

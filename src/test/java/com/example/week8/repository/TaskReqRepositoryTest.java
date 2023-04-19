@@ -1,10 +1,16 @@
 package com.example.week8.repository;
 
+import com.example.week8.entity.Ad;
+import com.example.week8.entity.Adv;
 import com.example.week8.entity.TaskRequest;
+import com.example.week8.enums.AccountRoleEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -16,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -68,12 +75,34 @@ public class TaskReqRepositoryTest {
 
     }
 
+    @ParameterizedTest
+    @MethodSource("temp")
+    void isOdd_ShouldReturnTrueForOddNumbers(Ad ad) {
+//        System.out.println(ad.get);
+    }
+
+    static Stream<Arguments> temmp() throws Throwable {
+        return Stream.of(
+                Arguments.of(Adv.builder()
+                        .name("adv")
+                        .password("1")
+                        .role(AccountRoleEnum.valueOf("ROLE_ADV"))
+                        .adIngActYn(1)
+                        .balance(1000L)
+                        .eventMoneyBalance(0L)
+                        .dayLimitBudget(0L)
+                        .build())
+        );
+    }
+
     /**
      * findByTaskStatus
      **/
     @Test
-    @DisplayName("성공_TaskStatus_REQ_일떄")
-    public void findByTaskStatus_Success() {
+    @ParameterizedTest
+    @ValueSource(strings = {"REQ,ING"})
+    @DisplayName("TaskStatus")
+    public void findByTaskStatus(String status) {
 
         //given
         TaskRequest taskRequest1 = TaskRequest.builder()
@@ -90,7 +119,7 @@ public class TaskReqRepositoryTest {
         taskRequestRepository.save(taskRequest2);
 
         //when
-        List<TaskRequest> taskRequests = taskRequestRepository.findByTaskStatus("REQ");
+        List<TaskRequest> taskRequests = taskRequestRepository.findByTaskStatus(status);
 
         //then
         assertEquals(2,taskRequests.size());

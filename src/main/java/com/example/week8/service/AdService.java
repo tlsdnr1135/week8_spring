@@ -35,28 +35,17 @@ public class AdService {
     //배치말고 여기
     @Transactional
     public String saveAd(AdDto adDto){
-        System.out.println(adDto.getItem().getId());
+
         //광고주 아이디 가져오기.
         Adv adv = advRepository.findById(adDto.getAdv().getName()).get();
 
         //광고그룹 아이디 저장. -> 아이디 리턴 받기
         //중복 체크
         Optional<Agroup> agroupOp = agroupRepository.findByAgroupName(adDto.getAgroup().getAgroupName());
-        Long agroupId;
-        if(agroupOp.isPresent()){ //값이 존재하면
-            agroupId = agroupOp.get().getId(); //아이디 바로 가져오기
-        }else{
-            adDto.getAgroup().setAgroupActYn(1); //기본 값.
-            adDto.getAgroup().setAgroupUseActYn(1); //기본 값.
-            agroupId = agroupRepository.save(adDto.getAgroup()).getId();
-        }
-        Agroup agroup = Agroup.builder()
-                .id(agroupId)
-                .build();
+        Agroup agroup = createAgroup(adDto, agroupOp);
 
         //아이템 아이디 가져오기.
         Item item = itemRepository.findById(adDto.getItem().getId()).get();
-        System.out.println("Item 아이디 : "+ item.getId());
 
         //광고 저장하기
         //TODO 객체에 id값만 넣어주기!
@@ -68,34 +57,17 @@ public class AdService {
                 .adActYn(1)
                 .build();
         //연관관계저장 ad->agroup
+        agroup.getAd().add(ad); //현재 내가 직접 만든 객체 넣어줘야하나..?
 
-        //1. 전체 객체를 넣고 출력
-        agroup.getAd().add(ad); //현재 내가 직접 만든 객체
-        adRepository.save(ad);
+        adRepository.save(ad); //저장
 
-
-        System.out.println("광고 아이디 불러오기 :" + ad.getId());
 
         //키워드 저장(ID)
-        List<Kwd> dbKwds = keywordRepository.findAll(); //5, 6 키워드 저장
         List<KwdDto> collects = adDto.getKwd(); //1 2 3 4 5
         List<Kwd> kwds = new ArrayList<>();
 
         //키워드 저장하기
-        for(KwdDto kwdDto: collects){
-            Optional<Kwd> kwd = keywordRepository.findByKwdName(kwdDto.toKwd().getKwdName());
-            if(kwd.isEmpty()){ //키워드가 디비에 없으면
-                //데이터 인서트
-                Kwd entity = keywordRepository.save(kwdDto.toKwd());
-                kwds.add(entity);
-            }else{ //중복이면
-                kwds.add(kwd.get());
-            }
-        }
-
-        for (Kwd kwd : kwds) {
-            System.out.println("키워드 아이디 값 : " + kwd.getId());
-        }
+        saveKwd(collects, kwds);
 
         //키워드 판매 가능 키워드 false인것 확인
         for(Kwd kwd:kwds){
@@ -104,17 +76,8 @@ public class AdService {
             }
         }
 
-        System.out.println("----------------확인-------------------");
-        System.out.println("DTO "+collects.size());
-        System.out.println("진짜 배열 "+kwds.size());
-        System.out.println("----------------확인-------------------");
-
         //키워드 개수에 따라 직접광고상세 만들기
         for(int i=0; i<kwds.size(); i++){
-            //더미
-//            DadDet temp = DadDet.builder()
-//                    .id(0L)
-//                    .build();
 
             if(kwds.get(i).getManualCnrKwdYn() == 1){ //수동
                 System.out.println("여기가 수동");
@@ -183,8 +146,38 @@ public class AdService {
                 daddetbidRepository.save(dadDetBid);
             }
         }
-        System.out.println("------------------------------------------------------------");
         return "성공";
+    }
+
+    private void saveKwd(List<KwdDto> collects, List<Kwd> kwds) {
+        for(KwdDto kwdDto: collects){
+            Optional<Kwd> kwd = keywordRepository.findByKwdName(kwdDto.toKwd().getKwdName());
+            if(kwd.isEmpty()){ //키워드가 디비에 없으면
+                System.out.println("키워드 저장");
+                System.out.println(kwdDto.getKwdName());
+                //데이터 인서트
+                Kwd entity = keywordRepository.save(kwdDto.toKwd());
+                kwds.add(entity);
+            }else{ //중복이면
+                System.out.println("키워드 중복");
+                kwds.add(kwd.get());
+            }
+        }
+    }
+
+    private Agroup createAgroup(AdDto adDto, Optional<Agroup> agroupOp) {
+        Long agroupId;
+        if(agroupOp.isPresent()){ //값이 존재하면
+            agroupId = agroupOp.get().getId(); //아이디 바로 가져오기
+        }else{
+            adDto.getAgroup().setAgroupActYn(1); //기본 값.
+            adDto.getAgroup().setAgroupUseActYn(1); //기본 값.
+            agroupId = agroupRepository.save(adDto.getAgroup()).getId();
+        }
+        Agroup agroup = Agroup.builder()
+                .id(agroupId)
+                .build();
+        return agroup;
     }
 
     public List<Ad> findAll() {

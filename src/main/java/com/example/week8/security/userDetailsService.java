@@ -16,6 +16,8 @@ public class userDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { //로그인 때 입력한 아이디
+        System.out.println("이건 이름 : " + username);
+        System.out.println("전체 조회 : " + accountRepository.findAll());
         Account account = accountRepository.findByName(username).orElseThrow(
                 () -> new IllegalArgumentException("userDetailsService 해당하는 아이디 없습니다.")
         );

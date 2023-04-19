@@ -97,7 +97,7 @@ public class AdServiceTest {
 
     }
 
-//sdsdds
+//sdsdds새롭게 커밋하자
     @Test
     @DisplayName("findAll")
     @Transactional

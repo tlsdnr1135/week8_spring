@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,10 +30,11 @@ public class AdService {
     private final DaddetRepository daddetRepository;
     private final DaddetbidRepository daddetbidRepository;
     private final CnrReqRepository cnrReqRepository;
+    private final EntityManager entityManager;
 
     //배치말고 여기
     @Transactional
-    public Object saveAd(AdDto adDto){
+    public String saveAd(AdDto adDto){
         System.out.println(adDto.getItem().getId());
         //광고주 아이디 가져오기.
         Adv adv = advRepository.findById(adDto.getAdv().getName()).get();
@@ -185,7 +187,7 @@ public class AdService {
         return "성공";
     }
 
-    public Object findAll() {
+    public List<Ad> findAll() {
         return adRepository.findAll();
     }
 

@@ -29,8 +29,8 @@ public class TaskReqRepositoryTest {
     @Autowired
     TaskRequestRepository taskRequestRepository;
 
-    @Autowired
-    TestEntityManager entityManager;
+//    @Autowired
+//    TestEntityManager entityManager;
 
 //    @BeforeEach
 //    public void beforeEach(){ //테스트 실행할땨마다 수행시킴

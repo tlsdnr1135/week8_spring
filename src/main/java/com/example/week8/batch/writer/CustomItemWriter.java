@@ -6,13 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class CustomItemWriter<T> implements ItemWriter {
-    private final EntityManagerFactory entityManagerFactory;
     private final DadReportRepository dadReportRepository;
 
     @Override

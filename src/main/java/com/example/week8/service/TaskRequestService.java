@@ -7,6 +7,8 @@ import com.example.week8.mapper.TaskRequestMapper;
 import com.example.week8.repository.AdminRepository;
 import com.example.week8.repository.TaskRequestRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -30,8 +32,12 @@ public class TaskRequestService {
     private final TaskRequestRepository taskRequestRepository;
     private final AdminRepository adminRepository;
 
+    @Value("${file.filePath}")
+    private String UPLOAD_PATH;
+//    String UPLOAD_PATH ="sd";
     //파일 저장
     public void saveFiles(MultipartFile multipartFile, String taskName, String adminId) throws IOException {
+        System.out.println("과연 나올까 : " + UPLOAD_PATH);
         String originFilename = multipartFile.getContentType();
         String[] arr = originFilename.split("/");
         System.out.println("원본 파일 이름" + originFilename);
@@ -57,7 +63,7 @@ public class TaskRequestService {
                 .taskStatus("REQ")
                 .taskName(taskName)
 //                .taskPath("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/") //집
-                .taskPath("C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+saveFileName+"."+arr[1]) //회사
+                .taskPath(UPLOAD_PATH+"/"+saveFileName+"."+arr[1]) //회사
                 .build();
 
         taskRequestRepository.save(taskRequest);
@@ -66,7 +72,7 @@ public class TaskRequestService {
             String line;
             Charset charset = StandardCharsets.UTF_8;
             BufferedReader br = new BufferedReader(new InputStreamReader(multipartFile.getInputStream(), "x-windows-949"));
-            BufferedWriter fw = new BufferedWriter(new FileWriter( "C:\\Users\\dev\\inteliJWorkspace\\2월\\week8\\src\\main\\resources\\file/"+saveFileName+"."+arr[1],charset)); //회사
+            BufferedWriter fw = new BufferedWriter(new FileWriter( UPLOAD_PATH+"/"+saveFileName+"."+arr[1],charset)); //회사
 //            BufferedWriter fw = new BufferedWriter(new FileWriter( "C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/"+taskName+"."+arr[1],charset)); //회사
 
             while((line=br.readLine()) != null) {

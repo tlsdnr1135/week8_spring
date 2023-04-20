@@ -1,4 +1,6 @@
-#spring:
-#  profiles:
-#    active:
-#      - awsmysql
+spring:
+  profiles:
+    active:
+      - prod
+  config:
+    import: application-prod.yaml

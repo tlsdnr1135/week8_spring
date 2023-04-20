@@ -1,0 +1,37 @@
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force-response: true
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 10KB
+
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db11h11m.cwsrqmkqrglk.ap-northeast-2.rds.amazonaws.com:3306/week8
+    username: sulbin
+    password: 12341234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+  batch:
+    job:
+      names: ${job.name:NONE}
+      enabled: false
+
+file:
+  filePath: C:\Users\dev\inteliJWorkspace\2월\week8\src\main\resources\file
+  bacthPath: src/main/resources/batcherror
+
+

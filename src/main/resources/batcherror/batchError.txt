@@ -1,0 +1,12 @@
+DadDetID 없음 / 파일명 : null
+null 오류 : DadReportCsv{requestDate='20201214', dadDetId=20, showCount=1, clickCount=1, avgShowRank=2.8, avgCpc=0.92323, adCost=null} / 파일명 : null
+DadDetID 없음 / 파일명 : null
+DadDetID 없음 / 파일명 : C:\Users\dev\inteliJWorkspace\2월\week8\src\main\resources\file/d00a1376-널 오류.csv
+null 오류 : DadReportCsv{requestDate='20201214', dadDetId=20, showCount=1, clickCount=1, avgShowRank=2.8, avgCpc=0.92323, adCost=null} / 파일명 : C:\Users\dev\inteliJWorkspace\2월\week8\src\main\resources\file/d00a1376-널 오류.csv
+DadDetID 없음 / 파일명 : C:\Users\dev\inteliJWorkspace\2월\week8\src\main\resources\file/d00a1376-널 오류.csv
+DadDetID 없음 :20 / 파일명 : C:\Users\dev\inteliJWorkspace\2월\week8\src\main\resources\file/b26245cf-ㅁㄴㅇㄼㅈㄷㄱ.csv
+null 오류 : DadReportCsv{requestDate='20201214', dadDetId=20, showCount=1, clickCount=1, avgShowRank=2.8, avgCpc=0.92323, adCost=null} / 파일명 : C:\Users\dev\inteliJWorkspace\2월\week8\src\main\resources\file/b26245cf-ㅁㄴㅇㄼㅈㄷㄱ.csv
+DadDetID 없음 :20 / 파일명 : C:\Users\dev\inteliJWorkspace\2월\week8\src\main\resources\file/b26245cf-ㅁㄴㅇㄼㅈㄷㄱ.csv
+Parsing error at line: 3 in resource=[path [C:\Users\dev\inteliJWorkspace\2월\week8\src\main\resources\file\1e651d47-ㅁㄴㄱ3ㅈㄱ3ㅈ43.csv]], input=[20221213,20,1,1,2.8,0.9,asdadas]
+DadDetID 없음 :20 / 파일명 : C:\Users\dev\inteliJWorkspace\2월\week8\src\main\resources\file/1e651d47-ㅁㄴㄱ3ㅈㄱ3ㅈ43.csv
+DadDetID 없음 :20 / 파일명 : C:\Users\dev\inteliJWorkspace\2월\week8\src\main\resources\file/1e651d47-ㅁㄴㄱ3ㅈㄱ3ㅈ43.csv

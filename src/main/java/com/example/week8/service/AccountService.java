@@ -1,5 +1,6 @@
 package com.example.week8.service;
 
+import com.example.week8.enums.AccountRoleEnum;
 import com.example.week8.mapper.AccountMapper;
 import com.example.week8.dto.account.join.AccountReqDto;
 import com.example.week8.dto.account.join.AccountResDto;
@@ -24,7 +25,7 @@ public class AccountService {
         System.out.println("Controller accountService안");
 
         String member;
-        if(accountReqDto.getRole().equals("ROLE_ADV")){ //관리자광고주
+        if(accountReqDto.getRole().equals(AccountRoleEnum.ROLE_ADV.getAccountRole())){ //관리자광고주
             System.out.println("광고주 if문 안");
             Adv adv = AccountMapper.INSTANCE.toAdv(accountReqDto);
             adv.encodePassword(passwordEncoder);

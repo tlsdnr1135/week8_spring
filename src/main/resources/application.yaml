@@ -1,6 +1,6 @@
 spring:
   profiles:
     active:
-      - prod
+      - dev
   config:
-    import: application-prod.yaml
+    import: application-dev.yaml

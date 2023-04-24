@@ -39,5 +39,5 @@ spring:
 #      jdbc:
 #          initialize-schema: embedded
 file:
-  filePath: /home/ubuntu/spring/file
+  filePath: home/ubuntu/spring/file
   bacthPath: /home/ubuntu/spring/errorbatch

@@ -8,7 +8,7 @@ public enum AccountRoleEnum {
     ROLE_ADV("ROLE_ADV"),
     ROLE_ADMIN("ROLE_ADMIN");
 
-    private String accountRole;
+    private final String accountRole;
 
     AccountRoleEnum(String roleAdmin) {
         this.accountRole = roleAdmin;

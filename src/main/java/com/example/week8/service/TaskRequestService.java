@@ -72,7 +72,7 @@ public class TaskRequestService {
             String line;
             Charset charset = StandardCharsets.UTF_8;
             BufferedReader br = new BufferedReader(new InputStreamReader(multipartFile.getInputStream(), "x-windows-949"));
-            BufferedWriter fw = new BufferedWriter(new FileWriter( UPLOAD_PATH+"/"+saveFileName+"."+arr[1],charset)); //회사
+            BufferedWriter fw = new BufferedWriter(new FileWriter( "/"+UPLOAD_PATH+"/"+saveFileName+"."+arr[1],charset)); //회사
 //            BufferedWriter fw = new BufferedWriter(new FileWriter( "C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/"+taskName+"."+arr[1],charset)); //회사
 
             while((line=br.readLine()) != null) {
@@ -114,7 +114,7 @@ public class TaskRequestService {
         System.out.println("파일 패스 : " + taskRequest.getTaskPath());
 
         System.out.println("오리지널 파일 네임 " + originFileName);
-        return new UrlResource("file:\\" + taskRequest.getTaskPath()); //회사
+        return new UrlResource("file:/" + taskRequest.getTaskPath()); //회사
 //        return new UrlResource("file:\\" + "C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\file/" + originFileName); //집
     }
 

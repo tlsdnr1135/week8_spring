@@ -20,7 +20,7 @@ public class FileVerificationSkipper implements SkipPolicy{
         try {
             // 1. 파일 객체 불러오기
 //            FileReader file = new FileReader("C:\\java_workspace\\IntelliJ_workspace\\11h11m\\week8_spring\\src\\main\\resources\\batcherror\\batchError.txt"); //집
-            FileReader file = new FileReader(ERROR_PATH+"/batchError.txt"); //회사
+            FileReader file = new FileReader(ERROR_PATH+"/batchError.txt"); //회사BATCH_JOB_EXECUTION_CONTEXT
 
             // 2. Buffer를 사용해서 File에 write할 수 있는 BufferedWriter 생성
             BufferedReader  br = new BufferedReader (file);

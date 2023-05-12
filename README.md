@@ -35,10 +35,10 @@ https://user-images.githubusercontent.com/107471786/230723392-08f85fa0-6833-4565
 4. 로그인 이후의 모든 API 호출시, Axios Interceptor를 활용하여 모든 요청의 인증 관련 헤더에 전달받은 JWT 토큰을 추가
 5. 직접 구현한 JWT 관련 Security Filter를 활용하여 해당 요청에 담긴 토큰이 유효한지 검사
 
-#### 광고관리
+## 광고관리
 <img src="https://user-images.githubusercontent.com/58963042/232238494-635d03f0-5c9e-4754-bd44-7904c6d6ab90.gif" width="500" height="300"/>
 
-#### 키워드 및 광고검수, 대량관리, 광고현황
+## 키워드 및 광고검수, 대량관리, 광고현황
 <img src="https://user-images.githubusercontent.com/58963042/232238986-42113238-ab2b-4f1d-a2ab-df8d16e37d24.gif" width="500" height="300"/>
 
 ## 일괄 처리 작업
